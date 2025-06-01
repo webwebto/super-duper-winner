@@ -639,71 +639,14 @@
     
     <div class="container">
         <div class="progress-bar">
-            <div class="progress-line"><div id="progress-line-fill" class="progress-line-fill"></div></div>
             <div class="progress-step active" data-step="1">
                 <div class="step-number">1</div>
-                <div class="step-title">Client Info</div>
-            </div>
-            <div class="progress-step" data-step="2">
-                <div class="step-number">2</div>
                 <div class="step-title">Services</div>
-            </div>
-            <div class="progress-step" data-step="3">
-                <div class="step-number">3</div>
-                <div class="step-title">Customization</div>
-            </div>
-            <div class="progress-step" data-step="4">
-                <div class="step-number">4</div>
-                <div class="step-title">Contract</div>
-            </div>
-            <div class="progress-step" data-step="5">
-                <div class="step-number">5</div>
-                <div class="step-title">Summary</div>
-            </div>
-        </div>
-        
-        <!-- Step 1: Client Info -->
-        <div class="step-content active" id="step-1">
-            <div class="card client-info-section">
-                <h2>Client Information</h2>
-                
-                <div class="form-group">
-                    <label for="client-name">Business Name</label>
-                    <input type="text" id="client-name" placeholder="Enter business name">
-                </div>
-                
-                <div class="form-group">
-                    <label for="client-email">Email</label>
-                    <input type="email" id="client-email" placeholder="Enter email address">
-                </div>
-                
-                <div class="form-group">
-                    <label for="client-phone">Phone</label>
-                    <input type="text" id="client-phone" placeholder="Enter phone number">
-                </div>
-                
-                <div class="form-group">
-                    <label for="client-industry">Industry</label>
-                    <select id="client-industry">
-                        <option value="">Select industry</option>
-                        <option value="retail">Retail</option>
-                        <option value="ecommerce">E-commerce</option>
-                        <option value="services">Professional Services</option>
-                        <option value="healthcare">Healthcare</option>
-                        <option value="education">Education</option>
-                        <option value="technology">Technology</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                
-                <div class="form-actions">
-                    <button class="btn btn-primary" id="step1-continue" style="float: right;">Continue</button>
-                </div>
             </div>
         </div>
         
         <!-- Step 2: Services -->
-        <div class="step-content" id="step-2">
+        <div class="step-content active" id="step-2">
             <div class="main-content">
                 <div class="services-section card">
                     <h2>Select Services</h2>
@@ -979,10 +922,6 @@
                         </div>
                     </div>
                     
-                    <div class="form-actions">
-                        <button class="btn" id="step2-back">Back</button>
-                        <button class="btn btn-primary" id="step2-continue" style="float: right;">Continue</button>
-                    </div>
                 </div>
                 
                 <div class="summary-section card">
@@ -1044,140 +983,6 @@
             </div>
         </div>
         
-        <!-- Step 3: Customization -->
-        <div class="step-content" id="step-3">
-            <div class="card customization-section">
-                <h2>Campaign Customization</h2>
-                
-                <div class="form-group">
-                    <label for="target-audience">Target Audience</label>
-                    <textarea id="target-audience" rows="4" placeholder="Describe your target audience..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="campaign-goals">Campaign Goals</label>
-                    <select id="campaign-goals" multiple size="5">
-                        <option value="brand-awareness">Brand Awareness</option>
-                        <option value="lead-generation">Lead Generation</option>
-                        <option value="sales">Sales/Conversions</option>
-                        <option value="engagement">Engagement</option>
-                        <option value="traffic">Website Traffic</option>
-                        <option value="retention">Customer Retention</option>
-                        <option value="loyalty">Customer Loyalty</option>
-                    </select>
-                    <small class="form-hint">Hold Ctrl (or Cmd on Mac) to select multiple goals</small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="special-requirements">Special Requirements</label>
-                    <textarea id="special-requirements" rows="4" placeholder="Any special requirements or notes..."></textarea>
-                </div>
-                
-                <div class="form-actions">
-                    <button class="btn" id="step3-back">Back</button>
-                    <button class="btn btn-primary" id="step3-continue" style="float: right;">Continue</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Step 4: Contract -->
-        <div class="step-content" id="step-4">
-            <div class="card contract-section">
-                <h2>Contract Details</h2>
-                
-                <div class="form-group">
-                    <label for="start-date">Campaign Start Date</label>
-                    <input type="date" id="start-date">
-                </div>
-                
-                <div class="form-group">
-                    <label for="payment-method">Payment Method</label>
-                    <select id="payment-method">
-                        <option value="credit-card">Credit Card</option>
-                        <option value="bank-transfer">Bank Transfer</option>
-                        <option value="paypal">PayPal</option>
-                        <option value="check">Check</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="billing-frequency">Billing Frequency</label>
-                    <select id="billing-frequency">
-                        <option value="monthly">Monthly</option>
-                        <option value="quarterly">Quarterly</option>
-                        <option value="annually">Annually (5% discount)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="terms-agreement">
-                        <label for="terms-agreement">I agree to the terms and conditions</label>
-                    </div>
-                </div>
-                
-                <div class="form-actions">
-                    <button class="btn" id="step4-back">Back</button>
-                    <button class="btn btn-primary" id="step4-continue" style="float: right;">Continue</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Step 5: Summary -->
-        <div class="step-content" id="step-5">
-            <div class="card final-summary-section">
-                <h2>Order Summary</h2>
-                
-                <div class="summary-card">
-                    <h4>Client Information</h4>
-                    <p><strong>Business Name:</strong> <span id="summary-business-name">-</span></p>
-                    <p><strong>Email:</strong> <span id="summary-email">-</span></p>
-                    <p><strong>Phone:</strong> <span id="summary-phone">-</span></p>
-                    <p><strong>Industry:</strong> <span id="summary-industry">-</span></p>
-                </div>
-                
-                <div class="summary-card">
-                    <h4>Selected Services</h4>
-                    <div id="summary-services">
-                        <!-- Service details will be populated here -->
-                    </div>
-                </div>
-                
-                <div class="summary-card">
-                    <h4>Customization</h4>
-                    <p><strong>Target Audience:</strong> <span id="summary-audience">-</span></p>
-                    <p><strong>Campaign Goals:</strong> <span id="summary-goals">-</span></p>
-                    <p><strong>Special Requirements:</strong> <span id="summary-requirements">-</span></p>
-                </div>
-                
-                <div class="summary-card">
-                    <h4>Contract Details</h4>
-                    <p><strong>Start Date:</strong> <span id="summary-start-date">-</span></p>
-                    <p><strong>Payment Method:</strong> <span id="summary-payment">-</span></p>
-                    <p><strong>Billing Frequency:</strong> <span id="summary-billing">-</span></p>
-                    <p><strong>Contract Length:</strong> <span id="summary-contract-length">-</span></p>
-                </div>
-                
-                <div class="summary-card">
-                    <h4>Financial Summary</h4>
-                    <p><strong>Monthly Investment:</strong> <span id="summary-monthly-fee">-</span></p>
-                    <p><strong>One-time Investment:</strong> <span id="summary-onetime-fee">-</span></p>
-                    <p><strong>Total First Payment:</strong> <span id="summary-first-payment">-</span></p>
-                </div>
-                
-                <div class="form-actions">
-                    <button class="btn" id="step5-back">Back</button>
-                    <button class="btn btn-success" id="submit-order" style="float: right;">Submit Order</button>
-                </div>
-                
-                <div class="success-message" id="success-message">
-                    <h3>Thank you for your order!</h3>
-                    <p>Your marketing campaign has been submitted successfully.</p>
-                    <p>A confirmation email has been sent to <span id="confirmation-email">your email</span>.</p>
-                    <p>Our team will contact you within 24 hours to get started.</p>
-                </div>
-            </div>
-        </div>
     </div>
     
     <script>
@@ -1195,79 +1000,79 @@
             };
             
             // Navigation functions
-            function goToStep(stepNumber) {
-                // Hide all steps
-                document.querySelectorAll('.step-content').forEach(step => {
-                    step.classList.remove('active');
-                });
-                
-                // Show the target step
-                document.getElementById(`step-${stepNumber}`).classList.add('active');
-                
-                // Update progress bar
-                document.querySelectorAll('.progress-step').forEach(step => {
-                    const stepNum = parseInt(step.getAttribute('data-step'));
-                    step.classList.remove('active', 'completed');
-                    
-                    if (stepNum === stepNumber) {
-                        step.classList.add('active');
-                    } else if (stepNum < stepNumber) {
-                        step.classList.add('completed');
-                    }
-                });
-                
-                // Update current step in client data
-                clientData.currentStep = stepNumber;
+            // function goToStep(stepNumber) {
+            //     // Hide all steps
+            //     document.querySelectorAll('.step-content').forEach(step => {
+            //         step.classList.remove('active');
+            //     });
+            //
+            //     // Show the target step
+            //     document.getElementById(`step-${stepNumber}`).classList.add('active');
+            //
+            //     // Update progress bar
+            //     document.querySelectorAll('.progress-step').forEach(step => {
+            //         const stepNum = parseInt(step.getAttribute('data-step'));
+            //         step.classList.remove('active', 'completed');
+            //
+            //         if (stepNum === stepNumber) {
+            //             step.classList.add('active');
+            //         } else if (stepNum < stepNumber) {
+            //             step.classList.add('completed');
+            //         }
+            //     });
+            //
+            //     // Update current step in client data
+            //     clientData.currentStep = stepNumber;
+            //
+            //     // Update dynamic progress line
+            //     const progressLineFill = document.getElementById('progress-line-fill');
+            //     const totalSteps = 5; // Assuming 5 steps
+            //     // Calculate percentage: for step 1 = 0%, step 2 = 25%, ..., step 5 = 100%
+            //     // To make step 1 show a little bit of the line, we can adjust the calculation slightly
+            //     // or ensure the "active" step number itself provides enough visual cue for the first step.
+            //     // For a line that only starts filling from step 2 active onwards:
+            //     // let percentage = 0;
+            //     // if (totalSteps > 1 && stepNumber > 1) {
+            //     //    percentage = ((stepNumber - 1) / (totalSteps - 1)) * 100;
+            //     // } else if (stepNumber === 1) {
+            //     //    percentage = 0; // Or a very small fixed percentage like 5% if desired
+            //     // }
+            //     // A simpler approach where step 1 active = 0% fill, step 5 active = 100% fill of the track between step 1 and 5 centers
+            //     let percentage = 0;
+            //     if (totalSteps > 1) {
+            //         percentage = ((stepNumber - 1) / (totalSteps - 1)) * 100;
+            //     }
+            //
+            //     if (progressLineFill) {
+            //         progressLineFill.style.width = percentage + '%';
+            //     }
+            //
+            //     // If going to summary step, update all summary fields
+            //     if (stepNumber === 5) {
+            //         updateSummary();
+            //     }
+            // }
 
-                // Update dynamic progress line
-                const progressLineFill = document.getElementById('progress-line-fill');
-                const totalSteps = 5; // Assuming 5 steps
-                // Calculate percentage: for step 1 = 0%, step 2 = 25%, ..., step 5 = 100%
-                // To make step 1 show a little bit of the line, we can adjust the calculation slightly
-                // or ensure the "active" step number itself provides enough visual cue for the first step.
-                // For a line that only starts filling from step 2 active onwards:
-                // let percentage = 0;
-                // if (totalSteps > 1 && stepNumber > 1) {
-                //    percentage = ((stepNumber - 1) / (totalSteps - 1)) * 100;
-                // } else if (stepNumber === 1) {
-                //    percentage = 0; // Or a very small fixed percentage like 5% if desired
-                // }
-                // A simpler approach where step 1 active = 0% fill, step 5 active = 100% fill of the track between step 1 and 5 centers
-                let percentage = 0;
-                if (totalSteps > 1) {
-                    percentage = ((stepNumber - 1) / (totalSteps - 1)) * 100;
-                }
-                
-                if (progressLineFill) {
-                    progressLineFill.style.width = percentage + '%';
-                }
-                
-                // If going to summary step, update all summary fields
-                if (stepNumber === 5) {
-                    updateSummary();
-                }
-            }
-            
-            // Step navigation event listeners
-            document.getElementById('step1-continue').addEventListener('click', function() {
-                // Save client info data
-                clientData.step1 = {
-                    businessName: document.getElementById('client-name').value || 'Not provided',
-                    email: document.getElementById('client-email').value || 'Not provided',
-                    phone: document.getElementById('client-phone').value || 'Not provided',
-                    industry: document.getElementById('client-industry').value || 'Not provided'
-                };
-                
-                goToStep(2);
-            });
-            
-            document.getElementById('step2-back').addEventListener('click', function() {
-                goToStep(1);
-            });
-            
-            document.getElementById('step2-continue').addEventListener('click', function() {
-                // Save service selection data
-                const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            // Step navigation event listeners - Commented out as navigation is removed
+            // document.getElementById('step1-continue').addEventListener('click', function() {
+            //     // Save client info data
+            //     clientData.step1 = {
+            //         businessName: document.getElementById('client-name').value || 'Not provided',
+            //         email: document.getElementById('client-email').value || 'Not provided',
+            //         phone: document.getElementById('client-phone').value || 'Not provided',
+            //         industry: document.getElementById('client-industry').value || 'Not provided'
+            //     };
+            //
+            //     goToStep(2);
+            // });
+
+            // document.getElementById('step2-back').addEventListener('click', function() {
+            //     goToStep(1);
+            // });
+
+            // document.getElementById('step2-continue').addEventListener('click', function() {
+            //     // Save service selection data
+            //     const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
                 clientData.step2.service = activeTab;
                 
                 if (activeTab === 'facebook') {
@@ -1304,16 +1109,16 @@
                     };
                 }
                 
-                goToStep(3);
-            });
+                // goToStep(3); // Navigation removed
+            // });
             
-            document.getElementById('step3-back').addEventListener('click', function() {
-                goToStep(2);
-            });
+            // document.getElementById('step3-back').addEventListener('click', function() {
+            //     goToStep(2);
+            // });
             
-            document.getElementById('step3-continue').addEventListener('click', function() {
-                // Save customization data
-                const goalsSelect = document.getElementById('campaign-goals');
+            // document.getElementById('step3-continue').addEventListener('click', function() {
+            //     // Save customization data
+            //     const goalsSelect = document.getElementById('campaign-goals');
                 const selectedGoals = Array.from(goalsSelect.selectedOptions).map(option => option.text);
                 
                 clientData.step3 = {
@@ -1322,16 +1127,16 @@
                     specialRequirements: document.getElementById('special-requirements').value || 'None'
                 };
                 
-                goToStep(4);
-            });
+                // goToStep(4); // Navigation removed
+            // });
             
-            document.getElementById('step4-back').addEventListener('click', function() {
-                goToStep(3);
-            });
+            // document.getElementById('step4-back').addEventListener('click', function() {
+            //     goToStep(3);
+            // });
             
-            document.getElementById('step4-continue').addEventListener('click', function() {
-                // Check if terms are agreed
-                if (!document.getElementById('terms-agreement').checked) {
+            // document.getElementById('step4-continue').addEventListener('click', function() {
+            //     // Check if terms are agreed
+            //     if (!document.getElementById('terms-agreement').checked) {
                     alert('Please agree to the terms and conditions to continue.');
                     return;
                 }
@@ -1343,16 +1148,16 @@
                     billingFrequency: document.getElementById('billing-frequency').value
                 };
                 
-                goToStep(5);
-            });
+                // goToStep(5); // Navigation removed
+            // });
             
-            document.getElementById('step5-back').addEventListener('click', function() {
-                goToStep(4);
-            });
+            // document.getElementById('step5-back').addEventListener('click', function() {
+            //     goToStep(4);
+            // });
             
-            document.getElementById('submit-order').addEventListener('click', function() {
-                // Show success message
-                document.getElementById('success-message').style.display = 'block';
+            // document.getElementById('submit-order').addEventListener('click', function() {
+            //     // Show success message
+            //     document.getElementById('success-message').style.display = 'block';
                 document.getElementById('confirmation-email').textContent = clientData.step1.email;
                 
                 // Hide the form actions
@@ -1360,10 +1165,10 @@
                 document.getElementById('step5-back').style.display = 'none';
             });
             
-            // Function to update summary
-            function updateSummary() {
-                // Client info
-                document.getElementById('summary-business-name').textContent = clientData.step1.businessName;
+            // Function to update summary - Commented out as Step 5 is removed
+            // function updateSummary() {
+            //     // Client info
+            //     document.getElementById('summary-business-name').textContent = clientData.step1.businessName;
                 document.getElementById('summary-email').textContent = clientData.step1.email;
                 document.getElementById('summary-phone').textContent = clientData.step1.phone;
                 document.getElementById('summary-industry').textContent = clientData.step1.industry;
@@ -1527,8 +1332,8 @@
                     firstPayment = Math.round(firstPayment * 0.95);
                 }
                 
-                document.getElementById('summary-first-payment').textContent = `$${formatCurrency(firstPayment)}`;
-            }
+                // document.getElementById('summary-first-payment').textContent = `$${formatCurrency(firstPayment)}`;
+            // }
             
             // Helper function to format currency
             function formatCurrency(value) {
