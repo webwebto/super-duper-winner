@@ -1,35 +1,2792 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.5">
-  <style type="text/css">
-    body {background-color: #f2f5f9}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 16.0px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff; background-color: #2b84d2}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 24.0px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626; background-color: #e04d15; min-height: 15.0px}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px 'Helvetica Neue'; color: #e04d15; -webkit-text-stroke: #e04d15}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px 'Helvetica Neue'; color: #646464; -webkit-text-stroke: #646464}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
-    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626; background-color: #ffffff}
-    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 16.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #000000; background-color: #ffffff}
-    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 16.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #000000; min-height: 18.0px}
-    p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 16.0px '.SF NS'; color: #ffffff; -webkit-text-stroke: #ffffff; background-color: #e04d15}
-    span.s1 {font-kerning: none; background-color: #ffffff}
-    span.s2 {font-kerning: none}
-    span.s3 {font-kerning: none; background-color: #e04d15}
-    span.s4 {font-kerning: none; background-color: #d5d5d5}
-    span.s5 {font: 16.0px Times; font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Tonic - Prototype</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E86319;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #333333; /* Updated from #2c3e50 */
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        /* Password protection overlay */
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(232, 99, 25, 0.95); /* Updated from rgba(44, 62, 80, 0.95) */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .password-container {
+            background-color: white;
+            padding: 32px; /* Updated from 30px */
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .password-container h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .password-container input {
+            width: 100%;
+            padding: 10px; /* Keep 10px for password input for now */
+            margin-bottom: 16px; /* Updated from 15px */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .password-container button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 24px; /* Updated from 10px 20px */
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .password-container button:hover {
+            background-color: #2980b9;
+        }
+        
+        .password-error {
+            color: var(--accent);
+            margin-top: 8px; /* Updated from 10px */
+            display: none;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            /* font-family will be set on body */
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif; /* Updated font */
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            font-weight: 400; /* Default weight for Nunito */
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 24px 0; /* Updated from 20px */
+            margin-bottom: 32px; /* Updated from 30px */
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700; /* Nunito Bold */
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 24px; /* Updated from 25px */
+            margin-bottom: 24px; /* Updated from 25px */
+        }
+        
+        h1 {
+            margin-bottom: 20px; 
+            color: var(--primary);
+            font-size: 32px; 
+            font-weight: 700; /* Nunito Bold */
+        }
+
+        h2 {
+            margin-bottom: 20px; 
+            color: var(--primary);
+            font-size: 28px; 
+            font-weight: 700; /* Nunito Bold */
+        }
+
+        h3 {
+            margin-bottom: 16px; 
+            color: var(--primary);
+            font-size: 22px; 
+            font-weight: 600; /* Nunito Semi-Bold */
+        }
+
+        h4 {
+            margin-bottom: 16px; 
+            color: var(--primary);
+            font-size: 18px; 
+            font-weight: 600; /* Nunito Semi-Bold */
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px; /* Keep 20px */
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 12px 24px; 
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600; /* Nunito Semi-Bold */
+            transition: all 0.3s ease;
+        }
+        
+        .tab:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary); /* Updated from --secondary */
+            color: var(--primary); /* Updated from --secondary */
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600; /* Nunito Semi-Bold */
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea { /* Added textarea */
+            width: 100%;
+            padding: 12px; 
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            font-family: 'Nunito', sans-serif; /* Ensure consistent font */
+            transition: border-color 0.2s ease, box-shadow 0.2s ease; /* For focus transition */
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus { /* Added textarea focus */
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(232, 99, 25, 0.2); /* Adjusted shadow */
+        }
+        
+        .range-slider {
+            width: 100%;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px; /* Increased margin for better spacing with custom controls */
+            position: relative; /* For absolute positioning of custom elements if needed inside label */
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .radio-item input[type="radio"] {
+            opacity: 0;
+            position: absolute;
+            width: 1px; /* Still take up 1px to be focusable */
+            height: 1px;
+            left: -9999px; /* Visually hidden but accessible */
+        }
+
+        .checkbox-item label,
+        .radio-item label {
+            position: relative;
+            padding-left: 30px; /* Space for custom control */
+            cursor: pointer;
+            user-select: none;
+            display: inline-flex; /* Align items if label text wraps */
+            align-items: center;
+            min-height: 22px; /* Ensure consistent height */
+        }
+
+        /* Custom Checkbox/Radio Box */
+        .checkbox-item label::before,
+        .radio-item label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-item label::before {
+            border-radius: 4px; /* Square for checkbox */
+        }
+
+        .radio-item label::before {
+            border-radius: 50%; /* Circle for radio */
+        }
+
+        /* Checked State - Box Style */
+        .checkbox-item input[type="checkbox"]:checked + label::before,
+        .radio-item input[type="radio"]:checked + label::before {
+            border-color: var(--primary);
+            background-color: var(--primary);
+        }
+
+        /* Checkmark for Checkbox */
+        .checkbox-item label::after {
+            content: '';
+            position: absolute;
+            left: 7px; 
+            top: 50%;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: translateY(-65%) rotate(45deg); /* Adjust for better centering */
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked + label::after {
+            opacity: 1;
+        }
+
+        /* Dot for Radio */
+        .radio-item label::after {
+            content: '';
+            position: absolute;
+            left: 6px; 
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: white;
+            transition: transform 0.2s ease;
+        }
+
+        .radio-item input[type="radio"]:checked + label::after {
+            transform: translateY(-50%) scale(1);
+        }
+
+        /* Focus State for Custom Controls */
+        .checkbox-item input[type="checkbox"]:focus + label::before,
+        .radio-item input[type="radio"]:focus + label::before {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(232, 99, 25, 0.2);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+        /* .radio-item input is hidden now */
+        /* .checkbox-item input is hidden now */
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 24px; 
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600; /* Nunito Semi-Bold */
+            transition: background-color 0.3s ease;
+            text-decoration: none; 
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #C75413; /* Darker shade of #E86319 */
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .summary-table th,
+        .summary-table td {
+            padding: 12px 16px; /* Updated from 12px 15px */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .summary-table th {
+            background-color: #f5f7fa;
+            font-weight: 700; /* Nunito Bold */
+            border-top: 2px solid #ddd; 
+            border-bottom: 2px solid #ddd; 
+        }
+        
+        .total-row {
+            font-weight: 700; /* Nunito Bold */
+            background-color: #f5f7fa;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px; /* Updated from 10px */
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 32px; /* Updated from 30px */
+            position: relative;
+        }
+        
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px; /* Updated from 10px */
+            position: relative;
+            z-index: 2;
+        }
+        
+        .progress-step.active .step-number {
+            background-color: var(--primary); /* Updated from --secondary */
+        }
+        
+        .progress-step.completed .step-number {
+            background-color: var(--success);
+        }
+        
+        .step-title {
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .progress-step.active .step-title {
+            color: var(--primary); 
+            font-weight: 600; /* Nunito Semi-Bold */
+        }
+        
+        .progress-step.completed .step-title {
+            color: var(--success);
+            font-weight: 600; /* Nunito Semi-Bold */
+        }
+
+        /* Removed .progress-bar::before, replaced by .progress-line and .progress-line-fill */
+        
+        .progress-line {
+            position: absolute;
+            top: 14px; /* Centering the 4px line with 30px step numbers */
+            left: 15%; /* Match old offset */
+            right: 15%; /* Match old offset */
+            height: 4px;
+            background-color: #ddd;
+            z-index: 1; /* Behind step numbers but above progress-bar bg */
+            border-radius: 2px;
+        }
+
+        .progress-line-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%; /* Initial width, will be set by JS */
+            transition: width 0.4s ease-in-out;
+            z-index: 2; /* Above the base line, same level as step numbers */
+            border-radius: 2px;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .services-section {
+            flex: 1;
+        }
+        
+        .summary-section {
+            flex: 1;
+        }
+
+        /* Added styles for step content */
+        .step-content {
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+
+        /* Client Info Step */
+        .client-info-section {
+            margin-bottom: 20px;
+        }
+
+        /* Customization Step */
+        .customization-section {
+            margin-bottom: 20px;
+        }
+
+        /* Contract Step */
+        .contract-section {
+            margin-bottom: 20px;
+        }
+
+        /* Summary Step */
+        .final-summary-section {
+            margin-bottom: 20px;
+        }
+
+        .final-summary-section .summary-card {
+            margin-bottom: 20px; /* Keep 20px */
+            padding: 16px; /* Updated from 15px */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .final-summary-section .summary-card h4 {
+            margin-bottom: 8px; /* Updated from 10px */
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px; /* Updated from 5px */
+        }
+
+        .final-summary-section .summary-card p {
+            margin-bottom: 8px; /* Updated from 5px */
+        }
+
+        .form-hint { /* Added class */
+            color: #444;
+            font-size: 0.9em;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+    <script>
+        // Password protection script
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordOverlay = document.getElementById('password-overlay');
+            const passwordInput = document.getElementById('password-input');
+            const passwordSubmit = document.getElementById('password-submit');
+            const passwordError = document.getElementById('password-error');
+            
+            // Simple password - as requested
+            const correctPassword = "webtonicadmin";
+            
+            // Check if user has already authenticated in this session
+            if (sessionStorage.getItem('authenticated') === 'true') {
+                passwordOverlay.style.display = 'none';
+            }
+            
+            // Password submission handler
+            passwordSubmit.addEventListener('click', checkPassword);
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            
+            function checkPassword() {
+                if (passwordInput.value === correctPassword) {
+                    // Correct password
+                    passwordOverlay.style.display = 'none';
+                    sessionStorage.setItem('authenticated', 'true');
+                } else {
+                    // Incorrect password
+                    passwordError.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    
+                    // Hide error message after 3 seconds
+                    setTimeout(function() {
+                        passwordError.style.display = 'none';
+                    }, 3000);
+                }
+            }
+        });
+    </script>
 </head>
 <body>
-<p class="p4"><span class="s3">Web Tonic</span></p>
-<p class="p5"><span class="s2"></span><br></p>
-<h2 style="margin: 0.0px 0.0px 20.0px 0.0px; font: 28.0px 'Helvetica Neue'; color: #e04d15; -webkit-text-stroke: #e04d15"><span class="s1">Services</span></h2>
+    <!-- Password Protection Overlay -->
+    <div id="password-overlay">
+        <div class="password-container">
+            <h2>Password Protected</h2>
+            <p>Please enter the password to access this content</p>
+            <input type="password" id="password-input" placeholder="Enter password">
+            <button id="password-submit">Submit</button>
+            <p class="password-error" id="password-error">Incorrect password. Please try again.</p>
+        </div>
+    </div>
+    
+    <header>
+        <div class="container">
+            <div class="logo">Web Tonic</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-line"><div id="progress-line-fill" class="progress-line-fill"></div></div>
+            <div class="progress-step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-title">Client Info</div>
+            </div>
+            <div class="progress-step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-title">Services</div>
+            </div>
+            <div class="progress-step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-title">Customization</div>
+            </div>
+            <div class="progress-step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-title">Contract</div>
+            </div>
+            <div class="progress-step" data-step="5">
+                <div class="step-number">5</div>
+                <div class="step-title">Summary</div>
+            </div>
+        </div>
+        
+        <!-- Step 1: Client Info -->
+        <div class="step-content active" id="step-1">
+            <div class="card client-info-section">
+                <h2>Client Information</h2>
+                
+                <div class="form-group">
+                    <label for="client-name">Business Name</label>
+                    <input type="text" id="client-name" placeholder="Enter business name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="client-email">Email</label>
+                    <input type="email" id="client-email" placeholder="Enter email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="client-phone">Phone</label>
+                    <input type="text" id="client-phone" placeholder="Enter phone number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="client-industry">Industry</label>
+                    <select id="client-industry">
+                        <option value="">Select industry</option>
+                        <option value="retail">Retail</option>
+                        <option value="ecommerce">E-commerce</option>
+                        <option value="services">Professional Services</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="education">Education</option>
+                        <option value="technology">Technology</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-primary" id="step1-continue" style="float: right;">Continue</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 2: Services -->
+        <div class="step-content" id="step-2">
+            <div class="main-content">
+                <div class="services-section card">
+                    <h2>Select Services</h2>
+                    
+                    <div class="tabs">
+                        <div class="tab active" data-tab="facebook">Facebook Ads</div>
+                        <div class="tab" data-tab="google">Google Ads</div>
+                        <div class="tab" data-tab="seo2">SEO 2</div>
+                        <div class="tab" data-tab="website">Website</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="facebook">
+                        <h3>Facebook Ads</h3>
+                        
+                        <div class="form-group">
+                            <label>Monthly Ad Spend</label>
+                            <input type="range" id="fb-spend" min="1000" max="100000" step="500" value="2500" class="range-slider">
+                            <div style="display: flex; align-items: center; margin-top: 5px; margin-bottom: 5px;">
+                                <div id="fb-spend-display" style="margin-right: 15px;">$2,500</div>
+                                <input type="number" id="fb-spend-input" min="1000" max="100000" step="500" value="2500" style="width: 120px; padding: 5px;">
+                            </div>
+                            <div id="fb-price-breakdown">
+                                Monthly Management Fee: <strong>$995</strong><br>
+                                One-time Setup Fee: <strong>$495</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Add-ons</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="fb-extra-platform">
+                                    <label for="fb-extra-platform">Extra Platform ($400)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="fb-cro">
+                                    <label for="fb-cro">Conversion Rate Optimization ($150/h)</label>
+                                    <input type="number" id="fb-cro-hours" placeholder="Hours" min="1" value="1" style="width: 80px; margin-left: 10px;">
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="fb-ugc">
+                                    <label for="fb-ugc">User Generated Content (Price TBD - requires consultation)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="fb-landing-page">
+                                    <label for="fb-landing-page">Custom landing page ($2000)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Contract Length</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="fb-contract" id="fb-3month" checked>
+                                    <label for="fb-3month">3 Months (No discount)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="fb-contract" id="fb-6month">
+                                    <label for="fb-6month">6 Months (50% off setup)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="fb-contract" id="fb-12month">
+                                    <label for="fb-12month">12 Months (FREE setup)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Payment Terms</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="fb-payment" id="fb-monthly" checked>
+                                    <label for="fb-monthly">Monthly</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="fb-payment" id="fb-quarterly">
+                                    <label for="fb-quarterly">Quarterly (5% off)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="fb-payment" id="fb-yearly">
+                                    <label for="fb-yearly">Yearly (10% off)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="google">
+                        <h3>Google Ads</h3>
+                        
+                        <div class="form-group">
+                            <label>Monthly Ad Spend</label>
+                            <input type="range" id="google-spend" min="1000" max="100000" step="500" value="2500" class="range-slider">
+                            <div style="display: flex; align-items: center; margin-top: 5px; margin-bottom: 5px;">
+                                <div id="google-spend-display" style="margin-right: 15px;">$2,500</div>
+                                <input type="number" id="google-spend-input" min="1000" max="100000" step="500" value="2500" style="width: 120px; padding: 5px;">
+                            </div>
+                            <div id="google-price-breakdown">
+                                Monthly Management Fee: <strong>$550</strong><br>
+                                One-time Setup Fee: <strong>$395</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Add-ons</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="google-gmc">
+                                    <label for="google-gmc">Google Merchant Center for eCommerce ($300)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="google-extra-platform">
+                                    <label for="google-extra-platform">Extra Platform ($450)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="google-cro">
+                                    <label for="google-cro">Conversion Rate Optimization ($150/h)</label>
+                                    <input type="number" id="google-cro-hours" placeholder="Hours" min="1" value="1" style="width: 80px; margin-left: 10px;">
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="google-landing-page">
+                                    <label for="google-landing-page">Custom landing page ($2000)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Contract Length</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="google-contract" id="google-3month" checked>
+                                    <label for="google-3month">3 Months (No discount)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="google-contract" id="google-6month">
+                                    <label for="google-6month">6 Months (50% off setup)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="google-contract" id="google-12month">
+                                    <label for="google-12month">12 Months (FREE setup)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Payment Terms</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="google-payment" id="google-monthly" checked>
+                                    <label for="google-monthly">Monthly</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="google-payment" id="google-quarterly">
+                                    <label for="google-quarterly">Quarterly (5% off)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="google-payment" id="google-yearly">
+                                    <label for="google-yearly">Yearly (10% off)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    
+                    <div class="tab-content" id="seo2">
+                        <h3>Search Engine Optimization 2</h3>
+                        
+                        <div class="form-group">
+                            <label>Geographic Scope</label>
+                            <select id="seo2-scope">
+                                <option value="Local (1 location)">Local (1 location)</option>
+                                <option value="Provincial (1-3 locations)">Provincial (1-3 locations)</option>
+                                <option value="National (3 - 10 locations)">National (3 - 10 locations)</option>
+                                <option value="More than 10 locations">More than 10 locations</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Keyword Difficulty</label>
+                            <select id="seo2-difficulty">
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" style="display: none;">
+                            <label>Monthly Spend</label>
+                            <div style="display: flex; align-items: center; margin-top: 5px; margin-bottom: 5px;">
+                                <div id="seo2-spend-display" style="margin-right: 15px;">$2,500</div>
+                                <input type="number" id="seo2-spend-input" min="1000" max="100000" step="500" value="2500" style="width: 120px; padding: 5px;">
+                            </div>
+                            <div id="seo2-price-breakdown">
+                                Monthly Management Fee: <strong>$595</strong><br>
+                                One-time Setup Fee: <strong>$395</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Add-ons</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="seo2-cro">
+                                    <label for="seo2-cro">Conversion Rate Optimization ($150/h)</label>
+                                    <input type="number" id="seo2-cro-hours" placeholder="Hours" min="1" value="1" style="width: 80px; margin-left: 10px;">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Contract Length</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="seo2-contract" id="seo2-3month" checked>
+                                    <label for="seo2-3month">3 Months (No discount)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="seo2-contract" id="seo2-6month">
+                                    <label for="seo2-6month">6 Months (50% off setup)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="seo2-contract" id="seo2-12month">
+                                    <label for="seo2-12month">12 Months (FREE setup)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Payment Terms</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="seo2-payment" id="seo2-monthly" checked>
+                                    <label for="seo2-monthly">Monthly</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="seo2-payment" id="seo2-quarterly">
+                                    <label for="seo2-quarterly">Quarterly (5% off)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="seo2-payment" id="seo2-yearly">
+                                    <label for="seo2-yearly">Yearly (10% off)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="website">
+                        <h3>Website Development</h3>
+                        
+                        <div class="form-group">
+                            <label>Number of Pages</label>
+                            <select id="website-pages">
+                                <option value="1">1 Page</option>
+                                <option value="2-7">2-7 Pages</option>
+                                <option value="custom">7+ Pages (Custom)</option>
+                            </select>
+                            <div id="website-price-display">$2,500</div>
+                            <div id="website-price-breakdown">
+                                One-time Development Fee: <strong>$2,500</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Add-ons</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="website-cro">
+                                    <label for="website-cro">Conversion Rate Optimization ($150/h)</label>
+                                    <input type="number" id="website-cro-hours" placeholder="Hours" min="1" value="1" style="width: 80px; margin-left: 10px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn" id="step2-back">Back</button>
+                        <button class="btn btn-primary" id="step2-continue" style="float: right;">Continue</button>
+                    </div>
+                </div>
+                
+                <div class="summary-section card">
+                    <h2>Current Selection</h2>
+                    
+                    <h3>Monthly Fees</h3>
+                    <div class="table-responsive-wrapper">
+                        <table class="summary-table">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                <th>Details</th>
+                                <th>Regular Fee</th>
+                                <th>Discounted Fee</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly-fees-tbody">
+                            <tr>
+                                <td>Facebook Ads</td>
+                                <td>$2,500 monthly spend</td>
+                                <td>$995</td>
+                                <td id="fb-discounted-fee">$995</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="2">Total Monthly Investment</td>
+                                <td>$995/month</td>
+                                <td id="total-discounted-fee">$995/month</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h3>One-time Fees</h3>
+                    <div class="table-responsive-wrapper">
+                        <table class="summary-table">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                <th>Details</th>
+                                <th>Fee</th>
+                            </tr>
+                        </thead>
+                        <tbody id="onetime-fees-tbody">
+                            <tr>
+                                <td>Facebook Ads</td>
+                                <td>Initial setup</td>
+                                <td>$495</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="2">Total One-time Investment</td>
+                                <td>$495</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="contract-term-display">3-month contract (No discount applied)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 3: Customization -->
+        <div class="step-content" id="step-3">
+            <div class="card customization-section">
+                <h2>Campaign Customization</h2>
+                
+                <div class="form-group">
+                    <label for="target-audience">Target Audience</label>
+                    <textarea id="target-audience" rows="4" placeholder="Describe your target audience..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="campaign-goals">Campaign Goals</label>
+                    <select id="campaign-goals" multiple size="5">
+                        <option value="brand-awareness">Brand Awareness</option>
+                        <option value="lead-generation">Lead Generation</option>
+                        <option value="sales">Sales/Conversions</option>
+                        <option value="engagement">Engagement</option>
+                        <option value="traffic">Website Traffic</option>
+                        <option value="retention">Customer Retention</option>
+                        <option value="loyalty">Customer Loyalty</option>
+                    </select>
+                    <small class="form-hint">Hold Ctrl (or Cmd on Mac) to select multiple goals</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="special-requirements">Special Requirements</label>
+                    <textarea id="special-requirements" rows="4" placeholder="Any special requirements or notes..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn" id="step3-back">Back</button>
+                    <button class="btn btn-primary" id="step3-continue" style="float: right;">Continue</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 4: Contract -->
+        <div class="step-content" id="step-4">
+            <div class="card contract-section">
+                <h2>Contract Details</h2>
+                
+                <div class="form-group">
+                    <label for="start-date">Campaign Start Date</label>
+                    <input type="date" id="start-date">
+                </div>
+                
+                <div class="form-group">
+                    <label for="payment-method">Payment Method</label>
+                    <select id="payment-method">
+                        <option value="credit-card">Credit Card</option>
+                        <option value="bank-transfer">Bank Transfer</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="check">Check</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="billing-frequency">Billing Frequency</label>
+                    <select id="billing-frequency">
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="annually">Annually (5% discount)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="terms-agreement">
+                        <label for="terms-agreement">I agree to the terms and conditions</label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn" id="step4-back">Back</button>
+                    <button class="btn btn-primary" id="step4-continue" style="float: right;">Continue</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 5: Summary -->
+        <div class="step-content" id="step-5">
+            <div class="card final-summary-section">
+                <h2>Order Summary</h2>
+                
+                <div class="summary-card">
+                    <h4>Client Information</h4>
+                    <p><strong>Business Name:</strong> <span id="summary-business-name">-</span></p>
+                    <p><strong>Email:</strong> <span id="summary-email">-</span></p>
+                    <p><strong>Phone:</strong> <span id="summary-phone">-</span></p>
+                    <p><strong>Industry:</strong> <span id="summary-industry">-</span></p>
+                </div>
+                
+                <div class="summary-card">
+                    <h4>Selected Services</h4>
+                    <div id="summary-services">
+                        <!-- Service details will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <h4>Customization</h4>
+                    <p><strong>Target Audience:</strong> <span id="summary-audience">-</span></p>
+                    <p><strong>Campaign Goals:</strong> <span id="summary-goals">-</span></p>
+                    <p><strong>Special Requirements:</strong> <span id="summary-requirements">-</span></p>
+                </div>
+                
+                <div class="summary-card">
+                    <h4>Contract Details</h4>
+                    <p><strong>Start Date:</strong> <span id="summary-start-date">-</span></p>
+                    <p><strong>Payment Method:</strong> <span id="summary-payment">-</span></p>
+                    <p><strong>Billing Frequency:</strong> <span id="summary-billing">-</span></p>
+                    <p><strong>Contract Length:</strong> <span id="summary-contract-length">-</span></p>
+                </div>
+                
+                <div class="summary-card">
+                    <h4>Financial Summary</h4>
+                    <p><strong>Monthly Investment:</strong> <span id="summary-monthly-fee">-</span></p>
+                    <p><strong>One-time Investment:</strong> <span id="summary-onetime-fee">-</span></p>
+                    <p><strong>Total First Payment:</strong> <span id="summary-first-payment">-</span></p>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn" id="step5-back">Back</button>
+                    <button class="btn btn-success" id="submit-order" style="float: right;">Submit Order</button>
+                </div>
+                
+                <div class="success-message" id="success-message">
+                    <h3>Thank you for your order!</h3>
+                    <p>Your marketing campaign has been submitted successfully.</p>
+                    <p>A confirmation email has been sent to <span id="confirmation-email">your email</span>.</p>
+                    <p>Our team will contact you within 24 hours to get started.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Store client data
+            let clientData = {
+                step1: {},
+                step2: {
+                    service: 'facebook',
+                    details: {}
+                },
+                step3: {},
+                step4: {},
+                currentStep: 1
+            };
+            
+            // Navigation functions
+            function goToStep(stepNumber) {
+                // Hide all steps
+                document.querySelectorAll('.step-content').forEach(step => {
+                    step.classList.remove('active');
+                });
+                
+                // Show the target step
+                document.getElementById(`step-${stepNumber}`).classList.add('active');
+                
+                // Update progress bar
+                document.querySelectorAll('.progress-step').forEach(step => {
+                    const stepNum = parseInt(step.getAttribute('data-step'));
+                    step.classList.remove('active', 'completed');
+                    
+                    if (stepNum === stepNumber) {
+                        step.classList.add('active');
+                    } else if (stepNum < stepNumber) {
+                        step.classList.add('completed');
+                    }
+                });
+                
+                // Update current step in client data
+                clientData.currentStep = stepNumber;
+
+                // Update dynamic progress line
+                const progressLineFill = document.getElementById('progress-line-fill');
+                const totalSteps = 5; // Assuming 5 steps
+                // Calculate percentage: for step 1 = 0%, step 2 = 25%, ..., step 5 = 100%
+                // To make step 1 show a little bit of the line, we can adjust the calculation slightly
+                // or ensure the "active" step number itself provides enough visual cue for the first step.
+                // For a line that only starts filling from step 2 active onwards:
+                // let percentage = 0;
+                // if (totalSteps > 1 && stepNumber > 1) {
+                //    percentage = ((stepNumber - 1) / (totalSteps - 1)) * 100;
+                // } else if (stepNumber === 1) {
+                //    percentage = 0; // Or a very small fixed percentage like 5% if desired
+                // }
+                // A simpler approach where step 1 active = 0% fill, step 5 active = 100% fill of the track between step 1 and 5 centers
+                let percentage = 0;
+                if (totalSteps > 1) {
+                    percentage = ((stepNumber - 1) / (totalSteps - 1)) * 100;
+                }
+                
+                if (progressLineFill) {
+                    progressLineFill.style.width = percentage + '%';
+                }
+                
+                // If going to summary step, update all summary fields
+                if (stepNumber === 5) {
+                    updateSummary();
+                }
+            }
+            
+            // Step navigation event listeners
+            document.getElementById('step1-continue').addEventListener('click', function() {
+                // Save client info data
+                clientData.step1 = {
+                    businessName: document.getElementById('client-name').value || 'Not provided',
+                    email: document.getElementById('client-email').value || 'Not provided',
+                    phone: document.getElementById('client-phone').value || 'Not provided',
+                    industry: document.getElementById('client-industry').value || 'Not provided'
+                };
+                
+                goToStep(2);
+            });
+            
+            document.getElementById('step2-back').addEventListener('click', function() {
+                goToStep(1);
+            });
+            
+            document.getElementById('step2-continue').addEventListener('click', function() {
+                // Save service selection data
+                const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+                clientData.step2.service = activeTab;
+                
+                if (activeTab === 'facebook') {
+                    clientData.step2.details = {
+                        spend: document.getElementById('fb-spend').value,
+                        extraPlatform: document.getElementById('fb-extra-platform').checked,
+                        cro: document.getElementById('fb-cro').checked,
+                        croHours: document.getElementById('fb-cro-hours').value,
+                        ugc: document.getElementById('fb-ugc').checked,
+                        contract: document.querySelector('input[name="fb-contract"]:checked').id.replace('fb-', '')
+                    };
+                } else if (activeTab === 'google') {
+                    clientData.step2.details = {
+                        spend: document.getElementById('google-spend').value,
+                        gmc: document.getElementById('google-gmc').checked,
+                        extraPlatform: document.getElementById('google-extra-platform').checked,
+                        cro: document.getElementById('google-cro').checked,
+                        croHours: document.getElementById('google-cro-hours').value,
+                        contract: document.querySelector('input[name="google-contract"]:checked').id.replace('google-', '')
+                    };
+                } else if (activeTab === 'seo') {
+                    clientData.step2.details = {
+                        scope: document.getElementById('seo-scope').value,
+                        difficulty: document.getElementById('seo-difficulty').value,
+                        cro: document.getElementById('seo-cro').checked,
+                        croHours: document.getElementById('seo-cro-hours').value,
+                        contract: document.querySelector('input[name="seo-contract"]:checked').id.replace('seo-', '')
+                    };
+                } else if (activeTab === 'website') {
+                    clientData.step2.details = {
+                        pages: document.getElementById('website-pages').value,
+                        cro: document.getElementById('website-cro').checked,
+                        croHours: document.getElementById('website-cro-hours').value
+                    };
+                }
+                
+                goToStep(3);
+            });
+            
+            document.getElementById('step3-back').addEventListener('click', function() {
+                goToStep(2);
+            });
+            
+            document.getElementById('step3-continue').addEventListener('click', function() {
+                // Save customization data
+                const goalsSelect = document.getElementById('campaign-goals');
+                const selectedGoals = Array.from(goalsSelect.selectedOptions).map(option => option.text);
+                
+                clientData.step3 = {
+                    targetAudience: document.getElementById('target-audience').value,
+                    campaignGoals: selectedGoals.join(', ') || 'Not specified',
+                    specialRequirements: document.getElementById('special-requirements').value || 'None'
+                };
+                
+                goToStep(4);
+            });
+            
+            document.getElementById('step4-back').addEventListener('click', function() {
+                goToStep(3);
+            });
+            
+            document.getElementById('step4-continue').addEventListener('click', function() {
+                // Check if terms are agreed
+                if (!document.getElementById('terms-agreement').checked) {
+                    alert('Please agree to the terms and conditions to continue.');
+                    return;
+                }
+                
+                // Save contract data
+                clientData.step4 = {
+                    startDate: document.getElementById('start-date').value || 'Not specified',
+                    paymentMethod: document.getElementById('payment-method').value,
+                    billingFrequency: document.getElementById('billing-frequency').value
+                };
+                
+                goToStep(5);
+            });
+            
+            document.getElementById('step5-back').addEventListener('click', function() {
+                goToStep(4);
+            });
+            
+            document.getElementById('submit-order').addEventListener('click', function() {
+                // Show success message
+                document.getElementById('success-message').style.display = 'block';
+                document.getElementById('confirmation-email').textContent = clientData.step1.email;
+                
+                // Hide the form actions
+                this.style.display = 'none';
+                document.getElementById('step5-back').style.display = 'none';
+            });
+            
+            // Function to update summary
+            function updateSummary() {
+                // Client info
+                document.getElementById('summary-business-name').textContent = clientData.step1.businessName;
+                document.getElementById('summary-email').textContent = clientData.step1.email;
+                document.getElementById('summary-phone').textContent = clientData.step1.phone;
+                document.getElementById('summary-industry').textContent = clientData.step1.industry;
+                
+                // Services
+                const servicesDiv = document.getElementById('summary-services');
+                let serviceHTML = '';
+                
+                const service = clientData.step2.service;
+                const details = clientData.step2.details;
+                
+                if (service === 'facebook') {
+                    serviceHTML += '<p><strong>Service:</strong> Facebook Ads</p>';
+                    serviceHTML += `<p><strong>Monthly Ad Spend:</strong> $${formatCurrency(parseInt(details.spend))}</p>`;
+                    
+                    let addOns = [];
+                    if (details.extraPlatform) addOns.push('Extra Platform ($400)');
+                    if (details.cro) addOns.push(`Conversion Rate Optimization (${details.croHours} hours @ $150/h)`);
+                    if (details.ugc) addOns.push('User Generated Content ($1000)');
+                    
+                    if (addOns.length > 0) {
+                        serviceHTML += '<p><strong>Add-ons:</strong></p>';
+                        serviceHTML += '<ul>';
+                        addOns.forEach(addon => {
+                            serviceHTML += `<li>${addon}</li>`;
+                        });
+                        serviceHTML += '</ul>';
+                    }
+                    
+                    // Contract length
+                    let contractText = '';
+                    if (details.contract === '3month') {
+                        contractText = '3 Months (No discount)';
+                    } else if (details.contract === '6month') {
+                        contractText = '6 Months (50% off setup)';
+                    } else if (details.contract === '12month') {
+                        contractText = '12 Months (FREE setup)';
+                    }
+                    
+                    document.getElementById('summary-contract-length').textContent = contractText;
+                    
+                } else if (service === 'google') {
+                    serviceHTML += '<p><strong>Service:</strong> Google Ads</p>';
+                    serviceHTML += `<p><strong>Monthly Ad Spend:</strong> $${formatCurrency(parseInt(details.spend))}</p>`;
+                    
+                    let addOns = [];
+                    if (details.gmc) addOns.push('Google Merchant Center ($300)');
+                    if (details.extraPlatform) addOns.push('Extra Platform ($450)');
+                    if (details.cro) addOns.push(`Conversion Rate Optimization (${details.croHours} hours @ $150/h)`);
+                    
+                    if (addOns.length > 0) {
+                        serviceHTML += '<p><strong>Add-ons:</strong></p>';
+                        serviceHTML += '<ul>';
+                        addOns.forEach(addon => {
+                            serviceHTML += `<li>${addon}</li>`;
+                        });
+                        serviceHTML += '</ul>';
+                    }
+                    
+                    // Contract length
+                    let contractText = '';
+                    if (details.contract === '3month') {
+                        contractText = '3 Months (No discount)';
+                    } else if (details.contract === '6month') {
+                        contractText = '6 Months (50% off setup)';
+                    } else if (details.contract === '12month') {
+                        contractText = '12 Months (FREE setup)';
+                    }
+                    
+                    document.getElementById('summary-contract-length').textContent = contractText;
+                    
+                } else if (service === 'seo') {
+                    serviceHTML += '<p><strong>Service:</strong> Search Engine Optimization</p>';
+                    serviceHTML += `<p><strong>Geographic Scope:</strong> ${details.scope}</p>`;
+                    serviceHTML += `<p><strong>Keyword Difficulty:</strong> ${details.difficulty}</p>`;
+                    
+                    if (details.cro) {
+                        serviceHTML += '<p><strong>Add-ons:</strong></p>';
+                        serviceHTML += '<ul>';
+                        serviceHTML += `<li>Conversion Rate Optimization (${details.croHours} hours @ $150/h)</li>`;
+                        serviceHTML += '</ul>';
+                    }
+                    
+                    // Contract length
+                    let contractText = '';
+                    if (details.contract === '3month') {
+                        contractText = '3 Months (No discount)';
+                    } else if (details.contract === '6month') {
+                        contractText = '6 Months (50% off setup)';
+                    } else if (details.contract === '12month') {
+                        contractText = '12 Months (FREE setup)';
+                    }
+                    
+                    document.getElementById('summary-contract-length').textContent = contractText;
+                    
+                } else if (service === 'website') {
+                    serviceHTML += '<p><strong>Service:</strong> Website Development</p>';
+                    
+                    let pagesText = '';
+                    if (details.pages === '1') {
+                        pagesText = '1 Page';
+                    } else if (details.pages === '2-7') {
+                        pagesText = '2-7 Pages';
+                    } else if (details.pages === 'custom') {
+                        pagesText = '7+ Pages (Custom)';
+                    }
+                    
+                    serviceHTML += `<p><strong>Pages:</strong> ${pagesText}</p>`;
+                    
+                    if (details.cro) {
+                        serviceHTML += '<p><strong>Add-ons:</strong></p>';
+                        serviceHTML += '<ul>';
+                        serviceHTML += `<li>Conversion Rate Optimization (${details.croHours} hours @ $150/h)</li>`;
+                        serviceHTML += '</ul>';
+                    }
+                    
+                    document.getElementById('summary-contract-length').textContent = 'One-time project';
+                }
+                
+                servicesDiv.innerHTML = serviceHTML;
+                
+                // Customization
+                document.getElementById('summary-audience').textContent = clientData.step3.targetAudience || 'Not specified';
+                document.getElementById('summary-goals').textContent = clientData.step3.campaignGoals;
+                document.getElementById('summary-requirements').textContent = clientData.step3.specialRequirements;
+                
+                // Contract
+                document.getElementById('summary-start-date').textContent = clientData.step4.startDate;
+                document.getElementById('summary-payment').textContent = formatPaymentMethod(clientData.step4.paymentMethod);
+                document.getElementById('summary-billing').textContent = formatBillingFrequency(clientData.step4.billingFrequency);
+                
+                // Financial summary
+                const monthlyFeeCell = document.getElementById('summary-total-monthly-fee');
+                const oneTimeFeeCell = document.getElementById('onetime-fees-tbody').querySelector('.total-row td:last-child');
+                
+                document.getElementById('summary-monthly-fee').textContent = monthlyFeeCell ? monthlyFeeCell.textContent : '$0/month';
+                document.getElementById('summary-onetime-fee').textContent = oneTimeFeeCell ? oneTimeFeeCell.textContent : '$0';
+                
+                // Calculate first payment
+                let firstPayment = 0;
+                
+                // Get monthly fee
+                const monthlyFeeText = document.getElementById('summary-monthly-fee').textContent;
+                const monthlyFeeMatch = monthlyFeeText.match(/\$([0-9,]+)/);
+                if (monthlyFeeMatch) {
+                    firstPayment += parseInt(monthlyFeeMatch[1].replace(/,/g, ''));
+                }
+                
+                // Get one-time fee
+                const oneTimeFeeText = document.getElementById('summary-onetime-fee').textContent;
+                if (oneTimeFeeText !== 'FREE' && oneTimeFeeText !== 'Custom Pricing') {
+                    const oneTimeFeeMatch = oneTimeFeeText.match(/\$([0-9,]+)/);
+                    if (oneTimeFeeMatch) {
+                        firstPayment += parseInt(oneTimeFeeMatch[1].replace(/,/g, ''));
+                    }
+                }
+                
+                // Apply billing frequency discount
+                if (clientData.step4.billingFrequency === 'annually') {
+                    // 5% discount on monthly fees when paid annually
+                    firstPayment = Math.round(firstPayment * 0.95);
+                }
+                
+                document.getElementById('summary-first-payment').textContent = `$${formatCurrency(firstPayment)}`;
+            }
+            
+            // Helper function to format currency
+            function formatCurrency(value) {
+                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // Helper function to format payment method
+            function formatPaymentMethod(method) {
+                const methodMap = {
+                    'credit-card': 'Credit Card',
+                    'bank-transfer': 'Bank Transfer',
+                    'paypal': 'PayPal',
+                    'check': 'Check'
+                };
+                
+                return methodMap[method] || method;
+            }
+            
+            // Helper function to format billing frequency
+            function formatBillingFrequency(frequency) {
+                const frequencyMap = {
+                    'monthly': 'Monthly',
+                    'quarterly': 'Quarterly',
+                    'annually': 'Annually (5% discount)'
+                };
+                
+                return frequencyMap[frequency] || frequency;
+            }
+            
+            // Tab switching
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab content
+                    const tabContents = document.querySelectorAll('.tab-content');
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Show corresponding tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Update summary based on active tab
+                    updateCurrentSelection();
+                    
+                    // Update client data
+                    clientData.step2.service = tabId;
+                });
+            });
+            
+            // Function to update the current selection summary based on active tab
+            function updateCurrentSelection() {
+                const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+                
+                if (activeTab === 'facebook') {
+                    fbSpendSlider.dispatchEvent(new Event('input'));
+                } else if (activeTab === 'google') {
+                    googleSpendSlider.dispatchEvent(new Event('input'));
+                } else if (activeTab === 'seo2') {
+                    updateSEO2Price();
+                } else if (activeTab === 'website') {
+                    websitePagesSelect.dispatchEvent(new Event('change'));
+                }
+            }
+            
+            // Function to get payment terms discount based on active tab
+            function getPaymentTermsDiscount() {
+                let paymentTermsDiscount = 0;
+                
+                // Get active tab
+                const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+                
+                // Apply payment terms discount based on selected option in the active tab
+                if (activeTab === 'facebook') {
+                    if (document.querySelector('input[name="fb-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="fb-payment"]:checked').id;
+                        if (paymentTermId === 'fb-quarterly') {
+                            paymentTermsDiscount = 0.05; // 5% discount for quarterly
+                        } else if (paymentTermId === 'fb-yearly') {
+                            paymentTermsDiscount = 0.10; // 10% discount for yearly
+                        }
+                    }
+                } else if (activeTab === 'google') {
+                    if (document.querySelector('input[name="google-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="google-payment"]:checked').id;
+                        if (paymentTermId === 'google-quarterly') {
+                            paymentTermsDiscount = 0.05; // 5% discount for quarterly
+                        } else if (paymentTermId === 'google-yearly') {
+                            paymentTermsDiscount = 0.10; // 10% discount for yearly
+                        }
+                    }
+                } else if (activeTab === 'seo2') {
+                    if (document.querySelector('input[name="seo2-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="seo2-payment"]:checked').id;
+                        if (paymentTermId === 'seo2-quarterly') {
+                            paymentTermsDiscount = 0.05; // 5% discount for quarterly
+                        } else if (paymentTermId === 'seo2-yearly') {
+                            paymentTermsDiscount = 0.10; // 10% discount for yearly
+                        }
+                    }
+                }
+                
+                return paymentTermsDiscount;
+            }
+            
+            // Function to calculate discount based on contract length and payment terms
+            function calculateDiscount(originalFee, contractLength) {
+                if (typeof originalFee !== 'number') {
+                    return originalFee; // Return as is if not a number (e.g., "Custom")
+                }
+                
+                // Get payment terms discount
+                const paymentTermsDiscount = getPaymentTermsDiscount();
+                
+                // Apply discount to monthly fee
+                return Math.round(originalFee * (1 - paymentTermsDiscount));
+            }
+            
+            // Function to calculate final one-time fee after discount based on contract length and payment terms
+            function calculateFinalOneTimeFee(originalFee, contractLength) {
+                if (typeof originalFee !== 'number') {
+                    return originalFee; // Return as is if not a number (e.g., "Custom")
+                }
+                
+                // First apply contract length discount
+                let discountedFee = originalFee;
+                if (contractLength === '6month') {
+                    discountedFee = Math.round(originalFee * 0.5); // 50% of original fee
+                } else if (contractLength === '12month') {
+                    discountedFee = 0; // 100% discount (free)
+                }
+                
+                // If already free due to contract length, no need to apply payment terms discount
+                if (discountedFee === 0) {
+                    return 0;
+                }
+                
+                // Then apply payment terms discount
+                const paymentTermsDiscount = getPaymentTermsDiscount();
+                return Math.round(discountedFee * (1 - paymentTermsDiscount));
+            }
+            
+            // Function to update contract term display
+            function updateContractTermDisplay(contractLength) {
+                const contractTermDisplay = document.getElementById('contract-term-display');
+                const paymentTermsDiscount = getPaymentTermsDiscount();
+                let paymentTermText = '';
+                
+                // Get payment term text based on active tab
+                const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+                if (activeTab === 'facebook') {
+                    if (document.querySelector('input[name="fb-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="fb-payment"]:checked').id;
+                        if (paymentTermId === 'fb-quarterly') {
+                            paymentTermText = ' with Quarterly payment (5% off)';
+                        } else if (paymentTermId === 'fb-yearly') {
+                            paymentTermText = ' with Yearly payment (10% off)';
+                        }
+                    }
+                } else if (activeTab === 'google') {
+                    if (document.querySelector('input[name="google-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="google-payment"]:checked').id;
+                        if (paymentTermId === 'google-quarterly') {
+                            paymentTermText = ' with Quarterly payment (5% off)';
+                        } else if (paymentTermId === 'google-yearly') {
+                            paymentTermText = ' with Yearly payment (10% off)';
+                        }
+                    }
+                } else if (activeTab === 'seo2') {
+                    if (document.querySelector('input[name="seo2-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="seo2-payment"]:checked').id;
+                        if (paymentTermId === 'seo2-quarterly') {
+                            paymentTermText = ' with Quarterly payment (5% off)';
+                        } else if (paymentTermId === 'seo2-yearly') {
+                            paymentTermText = ' with Yearly payment (10% off)';
+                        }
+                    }
+                }
+                
+                if (contractLength === '3month') {
+                    contractTermDisplay.textContent = '3-month contract' + paymentTermText;
+                } else if (contractLength === '6month') {
+                    contractTermDisplay.textContent = '6-month contract (50% off setup)' + paymentTermText;
+                } else if (contractLength === '12month') {
+                    contractTermDisplay.textContent = '12-month contract (FREE setup)' + paymentTermText;
+                }
+            }
+            
+            // Function to update summary tables
+            function updateSummaryTables(service, details, regularFee, discountedFee, oneTimeFee, contractLength) {
+                // Get final one-time fee with contract and payment terms discount applied
+                const finalOneTimeFee = calculateFinalOneTimeFee(oneTimeFee, contractLength);
+                
+                // Prepare display values, handling non-numeric cases
+                const displayRegularFee = typeof regularFee === 'number' ? `$${formatCurrency(regularFee)}` : regularFee;
+                const displayDiscountedFee = typeof discountedFee === 'number' ? `$${formatCurrency(discountedFee)}` : discountedFee;
+                const displayFinalOneTimeFee = finalOneTimeFee === 0 ? 'FREE' : (typeof finalOneTimeFee === 'number' ? `$${formatCurrency(finalOneTimeFee)}` : finalOneTimeFee);
+
+                // Update monthly fees table
+                const monthlyTableBody = document.getElementById('monthly-fees-tbody');
+                if (monthlyTableBody) {
+                    // Get payment terms
+                    const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+                    let paymentTerm = 'monthly'; // Default
+                    
+                    if (activeTab === 'facebook' && document.querySelector('input[name="fb-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="fb-payment"]:checked').id;
+                        if (paymentTermId === 'fb-quarterly') paymentTerm = 'quarterly';
+                        else if (paymentTermId === 'fb-yearly') paymentTerm = 'yearly';
+                    } else if (activeTab === 'google' && document.querySelector('input[name="google-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="google-payment"]:checked').id;
+                        if (paymentTermId === 'google-quarterly') paymentTerm = 'quarterly';
+                        else if (paymentTermId === 'google-yearly') paymentTerm = 'yearly';
+                    } else if (activeTab === 'seo2' && document.querySelector('input[name="seo2-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="seo2-payment"]:checked').id;
+                        if (paymentTermId === 'seo2-quarterly') paymentTerm = 'quarterly';
+                        else if (paymentTermId === 'seo2-yearly') paymentTerm = 'yearly';
+                    }
+                    
+                    // Calculate quarterly and yearly amounts
+                    const quarterlyAmount = typeof discountedFee === 'number' ? discountedFee * 3 : discountedFee;
+                    const yearlyAmount = typeof discountedFee === 'number' ? discountedFee * 12 : discountedFee;
+                    
+                    // Prepare display values for quarterly and yearly
+                    const displayQuarterlyFee = typeof quarterlyAmount === 'number' ? `$${formatCurrency(quarterlyAmount)}` : quarterlyAmount;
+                    const displayYearlyFee = typeof yearlyAmount === 'number' ? `$${formatCurrency(yearlyAmount)}` : yearlyAmount;
+                    
+                    // Base HTML
+                    let tableHTML = `
+                        <tr>
+                            <td>${service}</td>
+                            <td>${details}</td>
+                            <td>${displayRegularFee}</td>
+                            <td id="summary-discounted-monthly-fee">${displayDiscountedFee}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2">Total Monthly Investment</td>
+                            <td>${displayRegularFee}/month</td>
+                            <td id="summary-total-monthly-fee">${displayDiscountedFee}/month</td>
+                        </tr>
+                    `;
+                    
+                    // Add quarterly or yearly total if applicable
+                    if (paymentTerm === 'quarterly') {
+                        tableHTML += `
+                        <tr class="total-row quarterly-total">
+                            <td colspan="2">Total Quarterly Investment</td>
+                            <td>${typeof regularFee === 'number' ? '$' + formatCurrency(regularFee * 3) : regularFee}/quarter</td>
+                            <td>${displayQuarterlyFee}/quarter</td>
+                        </tr>
+                        `;
+                    } else if (paymentTerm === 'yearly') {
+                        tableHTML += `
+                        <tr class="total-row yearly-total">
+                            <td colspan="2">Total Yearly Investment</td>
+                            <td>${typeof regularFee === 'number' ? '$' + formatCurrency(regularFee * 12) : regularFee}/year</td>
+                            <td>${displayYearlyFee}/year</td>
+                        </tr>
+                        `;
+                    }
+                    
+                    monthlyTableBody.innerHTML = tableHTML;
+                }
+                
+                // Update one-time fees table with itemized add-ons
+                const oneTimeTableBody = document.getElementById('onetime-fees-tbody');
+                if (oneTimeTableBody) {
+                    let tableHTML = '';
+                    
+                    // Calculate the base setup fee (without add-ons)
+                    let baseSetupFee = oneTimeFee;
+                    let addOns = [];
+                    
+                    // Identify add-ons based on service type
+                    if (service === 'Facebook Ads') {
+                        if (document.getElementById('fb-extra-platform').checked) {
+                            addOns.push({name: 'Extra Platform', fee: 400});
+                            baseSetupFee -= 400;
+                        }
+                        if (document.getElementById('fb-cro').checked) {
+                            const hours = parseInt(document.getElementById('fb-cro-hours').value) || 1;
+                            addOns.push({name: `Conversion Rate Optimization (${hours} hours)`, fee: 150 * hours});
+                            baseSetupFee -= 150 * hours;
+                        }
+                        if (document.getElementById('fb-ugc').checked) {
+                            addOns.push({name: 'User Generated Content', fee: 1000});
+                            baseSetupFee -= 1000;
+                        }
+                        if (document.getElementById('fb-landing-page').checked) {
+                            addOns.push({name: 'Custom landing page', fee: 2000});
+                            baseSetupFee -= 2000;
+                        }
+                    } else if (service === 'Google Ads') {
+                        if (document.getElementById('google-gmc').checked) {
+                            addOns.push({name: 'Google Merchant Center', fee: 300});
+                            baseSetupFee -= 300;
+                        }
+                        if (document.getElementById('google-extra-platform').checked) {
+                            addOns.push({name: 'Extra Platform', fee: 450});
+                            baseSetupFee -= 450;
+                        }
+                        if (document.getElementById('google-cro').checked) {
+                            const hours = parseInt(document.getElementById('google-cro-hours').value) || 1;
+                            addOns.push({name: `Conversion Rate Optimization (${hours} hours)`, fee: 150 * hours});
+                            baseSetupFee -= 150 * hours;
+                        }
+                        if (document.getElementById('google-landing-page').checked) {
+                            addOns.push({name: 'Custom landing page', fee: 2000});
+                            baseSetupFee -= 2000;
+                        }
+                    } else if (service === 'SEO') {
+                        if (document.getElementById('seo-cro').checked) {
+                            const hours = parseInt(document.getElementById('seo-cro-hours').value) || 1;
+                            addOns.push({name: `Conversion Rate Optimization (${hours} hours)`, fee: 150 * hours});
+                            if (typeof baseSetupFee === 'number') {
+                                baseSetupFee -= 150 * hours;
+                            }
+                        }
+                    } else if (service === 'Website Development') {
+                        if (document.getElementById('website-cro').checked) {
+                            const hours = parseInt(document.getElementById('website-cro-hours').value) || 1;
+                            addOns.push({name: `Conversion Rate Optimization (${hours} hours)`, fee: 150 * hours});
+                            if (typeof baseSetupFee === 'number') {
+                                baseSetupFee -= 150 * hours;
+                            }
+                        }
+                    }
+                    
+                    // Apply contract discount to base setup fee only if it's a number
+                    let discountedBaseSetupFee = baseSetupFee;
+                    if (typeof baseSetupFee === 'number') {
+                        discountedBaseSetupFee = calculateFinalOneTimeFee(baseSetupFee, contractLength);
+                    }
+                    
+                    const displayBaseSetupFee = discountedBaseSetupFee === 0 ? 'FREE' : 
+                                              (typeof discountedBaseSetupFee === 'number' ? `$${formatCurrency(discountedBaseSetupFee)}` : 
+                                              discountedBaseSetupFee);
+                    
+                    // Add base setup fee row
+                    tableHTML += `
+                        <tr>
+                            <td>${service}</td>
+                            <td>Initial setup</td>
+                            <td>${displayBaseSetupFee}</td>
+                        </tr>
+                    `;
+                    
+                    // Add each add-on as a separate row (apply payment terms discount to add-ons for yearly payment)
+                    const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+                    let paymentTerm = 'monthly'; // Default
+                    
+                    if (activeTab === 'facebook' && document.querySelector('input[name="fb-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="fb-payment"]:checked').id;
+                        if (paymentTermId === 'fb-quarterly') paymentTerm = 'quarterly';
+                        else if (paymentTermId === 'fb-yearly') paymentTerm = 'yearly';
+                    } else if (activeTab === 'google' && document.querySelector('input[name="google-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="google-payment"]:checked').id;
+                        if (paymentTermId === 'google-quarterly') paymentTerm = 'quarterly';
+                        else if (paymentTermId === 'google-yearly') paymentTerm = 'yearly';
+                    } else if (activeTab === 'seo2' && document.querySelector('input[name="seo2-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="seo2-payment"]:checked').id;
+                        if (paymentTermId === 'seo2-quarterly') paymentTerm = 'quarterly';
+                        else if (paymentTermId === 'seo2-yearly') paymentTerm = 'yearly';
+                    }
+                    
+                    addOns.forEach(addon => {
+                        // Apply 10% discount to add-ons for yearly payment
+                        let displayFee = addon.fee;
+                        if (paymentTerm === 'yearly') {
+                            displayFee = Math.round(addon.fee * 0.9); // 10% off for yearly
+                        }
+                        
+                        tableHTML += `
+                            <tr>
+                                <td>${service}</td>
+                                <td>${addon.name}</td>
+                                <td>$${formatCurrency(displayFee)}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    // Calculate total (discounted base setup fee + all add-ons)
+                    let totalFee;
+                    if (typeof discountedBaseSetupFee === 'number') {
+                        totalFee = discountedBaseSetupFee;
+                        addOns.forEach(addon => {
+                            // MARKER_1
+                            let addonFee = addon.fee;
+                            if (paymentTerm === "yearly") {
+                                addonFee = Math.round(addon.fee * 0.9); // 10% off for yearly
+                            }
+                            totalFee += addonFee;
+                        });
+                    } else {
+                        // If base fee is "Custom", but we have add-ons
+                        if (addOns.length > 0) {
+                            let addonTotal = 0;
+                            addOns.forEach(addon => {
+                                // MARKER_3
+                                let addonFee = addon.fee;
+                                if (paymentTerm === "yearly") {
+                                    addonFee = Math.round(addon.fee * 0.9); // 10% off for yearly
+                                }
+                                addonTotal += addonFee;
+                            });
+                            totalFee = `Custom + $${formatCurrency(addonTotal)}`;
+                        } else {
+                            totalFee = discountedBaseSetupFee; // Just "Custom"
+                        }
+                    }
+                    
+                    // Add total row
+                    const displayTotalFee = totalFee === 0 ? 'FREE' : 
+                                          (typeof totalFee === 'number' ? `$${formatCurrency(totalFee)}` : 
+                                          totalFee);
+                    
+                    tableHTML += `
+                        <tr class="total-row">
+                            <td colspan="2">Total One-time Investment</td>
+                            <td>${displayTotalFee}</td>
+                        </tr>
+                    `;
+                    
+                    oneTimeTableBody.innerHTML = tableHTML;
+                }
+                
+                // Update contract term display
+                updateContractTermDisplay(contractLength);
+            }
+            
+            // Facebook spend slider
+            const fbSpendSlider = document.getElementById('fb-spend');
+            const fbSpendDisplay = document.getElementById('fb-spend-display');
+            const fbPriceBreakdown = document.getElementById('fb-price-breakdown');
+            const fbExtraPlatformItem = document.getElementById('fb-extra-platform').parentNode;
+            
+            // Sync number input with slider for Facebook Ads
+            const fbSpendInput = document.getElementById('fb-spend-input');
+            
+            fbSpendSlider.addEventListener('input', function() {
+                const spend = parseInt(this.value);
+                fbSpendDisplay.textContent = `$${formatCurrency(spend)}`;
+                fbSpendInput.value = spend;
+                
+                // Set pricing based on spend
+                let monthlyFee = 995;
+                let oneTimeFee = 495;
+                
+                if (spend > 3500 && spend <= 10000) {
+                    monthlyFee = 1295;
+                    oneTimeFee = 695;
+                } else if (spend > 10000 && spend <= 25000) {
+                    monthlyFee = Math.round(spend * 0.17);
+                    oneTimeFee = 1200;
+                } else if (spend > 25000) {
+                    monthlyFee = Math.round(spend * 0.14);
+                    oneTimeFee = 3000;
+                }
+                
+                // Show/hide Extra Platform add-on based on spend
+                if (spend > 10000) {
+                    fbExtraPlatformItem.style.display = 'none';
+                    document.getElementById('fb-extra-platform').checked = false;
+                } else {
+                    fbExtraPlatformItem.style.display = 'block';
+                }
+                
+                // Update price breakdown
+                fbPriceBreakdown.innerHTML = `
+                    Monthly Management Fee: <strong>$${formatCurrency(monthlyFee)}</strong><br>
+                    One-time Setup Fee: <strong>$${formatCurrency(oneTimeFee)}</strong>
+                `;
+                
+                // Calculate add-on costs
+                let addOnCost = 0;
+                if (document.getElementById('fb-extra-platform').checked) {
+                    addOnCost += 400;
+                }
+                if (document.getElementById('fb-cro').checked) {
+                    const hours = parseInt(document.getElementById('fb-cro-hours').value) || 1;
+                    addOnCost += 150 * hours;
+                }
+                if (document.getElementById('fb-ugc').checked) {
+                    addOnCost += 1000;
+                }
+                if (document.getElementById('fb-landing-page').checked) {
+                    addOnCost += 2000;
+                }
+                
+                // Add add-on costs to one-time fee
+                const totalOneTimeFee = oneTimeFee + addOnCost;
+                
+                // Get selected contract length
+                const contractLength = document.querySelector('input[name="fb-contract"]:checked').id.replace('fb-', '');
+                
+                // Calculate discounted fee
+                const discountedFee = calculateDiscount(monthlyFee, contractLength);
+                
+                // Update summary tables
+                updateSummaryTables('Facebook Ads', `$${formatCurrency(spend)} monthly spend`, monthlyFee, discountedFee, totalOneTimeFee, contractLength);
+                
+                // Update client data
+                clientData.step2.details = {
+                    spend: spend,
+                    extraPlatform: document.getElementById('fb-extra-platform').checked,
+                    cro: document.getElementById('fb-cro').checked,
+                    croHours: document.getElementById('fb-cro-hours').value,
+                    ugc: document.getElementById('fb-ugc').checked,
+                    contract: contractLength
+                };
+            });
+            
+            // Facebook add-ons with immediate update
+            document.getElementById('fb-extra-platform').addEventListener('change', function() {
+                fbSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            document.getElementById('fb-cro').addEventListener('change', function() {
+                fbSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            document.getElementById('fb-cro-hours').addEventListener('input', function() {
+                fbSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            document.getElementById('fb-ugc').addEventListener('change', function() {
+                fbSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            // Facebook contract length with immediate update
+            document.querySelectorAll('input[name="fb-contract"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    fbSpendSlider.dispatchEvent(new Event('input'));
+                });
+            });
+            
+            // Facebook payment terms with immediate update
+            document.querySelectorAll('input[name="fb-payment"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    fbSpendSlider.dispatchEvent(new Event('input'));
+                });
+            });
+            
+            // Sync number input with slider for Facebook Ads
+            fbSpendInput.addEventListener('input', function() {
+                const spend = parseInt(this.value);
+                fbSpendSlider.value = spend;
+                fbSpendDisplay.textContent = `$${formatCurrency(spend)}`;
+                fbSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            // Add event listener for Facebook landing page add-on
+            document.getElementById('fb-landing-page').addEventListener('change', function() {
+                fbSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            // Google spend slider
+            const googleSpendSlider = document.getElementById('google-spend');
+            const googleSpendDisplay = document.getElementById('google-spend-display');
+            const googlePriceBreakdown = document.getElementById('google-price-breakdown');
+            const googleSpendInput = document.getElementById('google-spend-input');
+            const googleGmcItem = document.getElementById('google-gmc').parentNode;
+            const googleExtraPlatformItem = document.getElementById('google-extra-platform').parentNode;
+            
+            googleSpendSlider.addEventListener('input', function() {
+                const spend = parseInt(this.value);
+                googleSpendDisplay.textContent = `$${formatCurrency(spend)}`;
+                googleSpendInput.value = spend;
+                
+                // Set pricing based on spend
+                let monthlyFee = 550;
+                let oneTimeFee = 395;
+                
+                if (spend > 3500 && spend <= 10000) {
+                    monthlyFee = 995;
+                    oneTimeFee = 595;
+                } else if (spend > 10000 && spend <= 25000) {
+                    monthlyFee = Math.round(spend * 0.15);
+                    oneTimeFee = 995;
+                } else if (spend > 25000) {
+                    monthlyFee = Math.round(spend * 0.12);
+                    oneTimeFee = 2500;
+                }
+                
+                // Show/hide Extra Platform add-on based on spend
+                if (spend > 10000) {
+                    googleExtraPlatformItem.style.display = 'none';
+                    document.getElementById('google-extra-platform').checked = false;
+                } else {
+                    googleExtraPlatformItem.style.display = 'block';
+                }
+                
+                // Show/hide Google Merchant Center add-on based on spend
+                if (spend > 25000) {
+                    googleGmcItem.style.display = 'none';
+                    document.getElementById('google-gmc').checked = false;
+                } else {
+                    googleGmcItem.style.display = 'block';
+                }
+                
+                // Update price breakdown
+                googlePriceBreakdown.innerHTML = `
+                    Monthly Management Fee: <strong>$${formatCurrency(monthlyFee)}</strong><br>
+                    One-time Setup Fee: <strong>$${formatCurrency(oneTimeFee)}</strong>
+                `;
+                
+                // Calculate add-on costs
+                let addOnCost = 0;
+                if (document.getElementById('google-gmc').checked) {
+                    addOnCost += 300;
+                }
+                if (document.getElementById('google-extra-platform').checked) {
+                    addOnCost += 450;
+                }
+                if (document.getElementById('google-cro').checked) {
+                    const hours = parseInt(document.getElementById('google-cro-hours').value) || 1;
+                    addOnCost += 150 * hours;
+                }
+                if (document.getElementById('google-landing-page').checked) {
+                    addOnCost += 2000;
+                }
+                
+                // Add add-on costs to one-time fee
+                const totalOneTimeFee = oneTimeFee + addOnCost;
+                
+                // Get selected contract length
+                const contractLength = document.querySelector('input[name="google-contract"]:checked').id.replace('google-', '');
+                
+                // Calculate discounted fee
+                const discountedFee = calculateDiscount(monthlyFee, contractLength);
+                
+                // Update summary tables
+                updateSummaryTables('Google Ads', `$${formatCurrency(spend)} monthly spend`, monthlyFee, discountedFee, totalOneTimeFee, contractLength);
+                
+                // Update client data
+                clientData.step2.details = {
+                    spend: spend,
+                    gmc: document.getElementById('google-gmc').checked,
+                    extraPlatform: document.getElementById('google-extra-platform').checked,
+                    cro: document.getElementById('google-cro').checked,
+                    croHours: document.getElementById('google-cro-hours').value,
+                    contract: contractLength
+                };
+            });
+            
+            // Sync number input with slider for Google Ads
+            googleSpendInput.addEventListener('input', function() {
+                const spend = parseInt(this.value);
+                googleSpendSlider.value = spend;
+                googleSpendDisplay.textContent = `$${formatCurrency(spend)}`;
+                googleSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            // Google add-ons with immediate update
+            document.getElementById('google-gmc').addEventListener('change', function() {
+                googleSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            document.getElementById('google-extra-platform').addEventListener('change', function() {
+                googleSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            document.getElementById('google-cro').addEventListener('change', function() {
+                googleSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            document.getElementById('google-cro-hours').addEventListener('input', function() {
+                googleSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            // Add event listener for Google landing page add-on
+            document.getElementById('google-landing-page').addEventListener('change', function() {
+                googleSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            document.getElementById('google-cro').addEventListener('change', function() {
+                googleSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            document.getElementById('google-cro-hours').addEventListener('input', function() {
+                googleSpendSlider.dispatchEvent(new Event('input'));
+            });
+            
+            // Google contract length with immediate update
+            document.querySelectorAll('input[name="google-contract"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    googleSpendSlider.dispatchEvent(new Event('input'));
+                });
+            });
+            
+            // Google payment terms with immediate update
+            document.querySelectorAll('input[name="google-payment"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    googleSpendSlider.dispatchEvent(new Event('input'));
+                });
+            });
+            
+            // SEO 2 dropdowns
+            const seo2ScopeSelect = document.getElementById('seo2-scope');
+            const seo2DifficultySelect = document.getElementById('seo2-difficulty');
+            const seo2PriceBreakdown = document.getElementById('seo2-price-breakdown');
+            
+            // SEO pricing data from Excel file
+            const seoPricingData = {
+                "Local (1 location)": {
+                    "Easy": {
+                        "monthlyFee": 595.0,
+                        "oneTimeFee": 395.0
+                    },
+                    "Medium": {
+                        "monthlyFee": 995.0,
+                        "oneTimeFee": 595.0
+                    },
+                    "Hard": {
+                        "monthlyFee": 1495.0,
+                        "oneTimeFee": 995.0
+                    }
+                },
+                "Provincial (1-3 locations)": {
+                    "Easy": {
+                        "monthlyFee": 1095.0,
+                        "oneTimeFee": 695.0
+                    },
+                    "Medium": {
+                        "monthlyFee": 1995.0,
+                        "oneTimeFee": 995.0
+                    },
+                    "Hard": {
+                        "monthlyFee": 2995.0,
+                        "oneTimeFee": 1995.0
+                    }
+                },
+                "National (3 - 10 locations)": {
+                    "Easy": {
+                        "monthlyFee": 2295.0,
+                        "oneTimeFee": 1995.0
+                    },
+                    "Medium": {
+                        "monthlyFee": 3995.0,
+                        "oneTimeFee": 2795.0
+                    },
+                    "Hard": {
+                        "monthlyFee": 5995.0,
+                        "oneTimeFee": 4995.0
+                    }
+                },
+                "More than 10 locations": {
+                    "Easy": {
+                        "monthlyFee": "Custom",
+                        "oneTimeFee": "Custom"
+                    },
+                    "Medium": {
+                        "monthlyFee": "Custom",
+                        "oneTimeFee": "Custom"
+                    },
+                    "Hard": {
+                        "monthlyFee": "Custom",
+                        "oneTimeFee": "Custom"
+                    }
+                }
+            };
+            
+
+            
+            // Function to update the Current Selection section specifically for SEO 2
+            function updateCurrentSelectionSEO2(scope, difficulty, monthlyFee, discountedFee, totalOneTimeFee, contractLength) {
+                // Get final one-time fee with contract and payment terms discount applied
+                const finalOneTimeFee = calculateFinalOneTimeFee(totalOneTimeFee, contractLength);
+                
+                // Prepare display values, handling non-numeric cases
+                const displayRegularFee = typeof monthlyFee === 'number' ? `$${formatCurrency(monthlyFee)}` : monthlyFee;
+                const displayDiscountedFee = typeof discountedFee === 'number' ? `$${formatCurrency(discountedFee)}` : discountedFee;
+                const displayFinalOneTimeFee = finalOneTimeFee === 0 ? 'FREE' : (typeof finalOneTimeFee === 'number' ? `$${formatCurrency(finalOneTimeFee)}` : finalOneTimeFee);
+
+                // Update monthly fees table in Current Selection
+                const monthlyTableBody = document.getElementById('monthly-fees-tbody');
+                if (monthlyTableBody) {
+                    // Get payment terms
+                    const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+                    let paymentTerm = 'monthly'; // Default
+                    
+                    if (activeTab === 'seo2' && document.querySelector('input[name="seo2-payment"]:checked')) {
+                        const paymentTermId = document.querySelector('input[name="seo2-payment"]:checked').id;
+                        if (paymentTermId === 'seo2-quarterly') paymentTerm = 'quarterly';
+                        else if (paymentTermId === 'seo2-yearly') paymentTerm = 'yearly';
+                    }
+                    
+                    // Calculate quarterly and yearly amounts
+                    const quarterlyAmount = typeof discountedFee === 'number' ? discountedFee * 3 : discountedFee;
+                    const yearlyAmount = typeof discountedFee === 'number' ? discountedFee * 12 : discountedFee;
+                    
+                    // Prepare display values for quarterly and yearly
+                    const displayQuarterlyFee = typeof quarterlyAmount === 'number' ? `$${formatCurrency(quarterlyAmount)}` : quarterlyAmount;
+                    const displayYearlyFee = typeof yearlyAmount === 'number' ? `$${formatCurrency(yearlyAmount)}` : yearlyAmount;
+                    
+                    // Base HTML
+                    let tableHTML = `
+                        <tr>
+                            <td>SEO 2</td>
+                            <td>${scope} - ${difficulty} difficulty</td>
+                            <td>${displayRegularFee}</td>
+                            <td id="summary-discounted-monthly-fee">${displayDiscountedFee}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2">Total Monthly Investment</td>
+                            <td>${displayRegularFee}/month</td>
+                            <td id="summary-total-monthly-fee">${displayDiscountedFee}/month</td>
+                        </tr>
+                    `;
+                    
+                    // Add quarterly or yearly total if applicable
+                    if (paymentTerm === 'quarterly') {
+                        tableHTML += `
+                        <tr class="total-row quarterly-total">
+                            <td colspan="2">Total Quarterly Investment</td>
+                            <td>${typeof monthlyFee === 'number' ? '$' + formatCurrency(monthlyFee * 3) : monthlyFee}/quarter</td>
+                            <td>${displayQuarterlyFee}/quarter</td>
+                        </tr>
+                        `;
+                    } else if (paymentTerm === 'yearly') {
+                        tableHTML += `
+                        <tr class="total-row yearly-total">
+                            <td colspan="2">Total Yearly Investment</td>
+                            <td>${typeof monthlyFee === 'number' ? '$' + formatCurrency(monthlyFee * 12) : monthlyFee}/year</td>
+                            <td>${displayYearlyFee}/year</td>
+                        </tr>
+                        `;
+                    }
+                    
+                    monthlyTableBody.innerHTML = tableHTML;
+                }
+                
+                // Update one-time fees table in Current Selection
+                const oneTimeTableBody = document.getElementById('onetime-fees-tbody');
+                if (oneTimeTableBody) {
+                    let tableHTML = '';
+                    
+                    // Calculate the base setup fee (without add-ons)
+                    let baseSetupFee = typeof totalOneTimeFee === 'number' ? totalOneTimeFee : totalOneTimeFee;
+                    let addOns = [];
+                    
+                    // Check for CRO add-on
+                    if (document.getElementById('seo2-cro').checked) {
+                        const hours = parseInt(document.getElementById('seo2-cro-hours').value) || 1;
+                        addOns.push({name: `Conversion Rate Optimization (${hours} hours)`, fee: 150 * hours});
+                        if (typeof baseSetupFee === 'number') {
+                            baseSetupFee -= 150 * hours;
+                        }
+                    }
+                    
+                    // Apply contract discount to base setup fee only if it's a number
+                    let discountedBaseSetupFee = baseSetupFee;
+                    if (typeof baseSetupFee === 'number') {
+                        discountedBaseSetupFee = calculateFinalOneTimeFee(baseSetupFee, contractLength);
+                    }
+                    
+                    const displayBaseSetupFee = discountedBaseSetupFee === 0 ? 'FREE' : 
+                                              (typeof discountedBaseSetupFee === 'number' ? `$${formatCurrency(discountedBaseSetupFee)}` : 
+                                              discountedBaseSetupFee);
+                    
+                    // Add base setup fee row
+                    tableHTML += `
+                        <tr>
+                            <td>SEO 2</td>
+                            <td>Initial setup</td>
+                            <td>${displayBaseSetupFee}</td>
+                        </tr>
+                    `;
+                    
+                    // Add each add-on as a separate row (add-ons are never free)
+                    addOns.forEach(addon => {
+                        tableHTML += `
+                            <tr>
+                                <td>SEO 2</td>
+                                <td>${addon.name}</td>
+                                <td>$${formatCurrency(addon.fee)}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    // Calculate total (discounted base setup fee + all add-ons)
+                    let totalFee;
+                    if (typeof discountedBaseSetupFee === 'number') {
+                        totalFee = discountedBaseSetupFee;
+                        addOns.forEach(addon => {
+                            totalFee += addon.fee;
+                        });
+                    } else {
+                        // If base fee is "Custom", but we have add-ons
+                        if (addOns.length > 0) {
+                            let addonTotal = 0;
+                            addOns.forEach(addon => {
+                                addonTotal += addon.fee;
+                            });
+                            totalFee = `Custom + $${formatCurrency(addonTotal)}`;
+                        } else {
+                            totalFee = discountedBaseSetupFee; // Just "Custom"
+                        }
+                    }
+                    
+                    // Add total row
+                    const displayTotalFee = totalFee === 0 ? 'FREE' : 
+                                          (typeof totalFee === 'number' ? `$${formatCurrency(totalFee)}` : 
+                                          totalFee);
+                    
+                    tableHTML += `
+                        <tr class="total-row">
+                            <td colspan="2">Total One-time Investment</td>
+                            <td>${displayTotalFee}</td>
+                        </tr>
+                    `;
+                    
+                    oneTimeTableBody.innerHTML = tableHTML;
+                }
+                
+                // Update contract term display
+                updateContractTermDisplay(contractLength);
+            }
+
+            function updateSEO2Price() {
+                const scope = seo2ScopeSelect.value;
+                const difficulty = seo2DifficultySelect.value;
+                
+                // Get pricing from the data structure
+                let monthlyFee = 595;
+                let oneTimeFee = 395;
+                
+                if (seoPricingData[scope] && seoPricingData[scope][difficulty]) {
+                    monthlyFee = seoPricingData[scope][difficulty].monthlyFee;
+                    oneTimeFee = seoPricingData[scope][difficulty].oneTimeFee;
+                }
+                
+                // Calculate add-on costs
+                let addOnCost = 0;
+                if (document.getElementById('seo2-cro').checked) {
+                    const hours = parseInt(document.getElementById('seo2-cro-hours').value) || 1;
+                    addOnCost += 150 * hours;
+                }
+                
+                // Add add-on costs to one-time fee if it's a number
+                let totalOneTimeFee = oneTimeFee;
+                if (typeof oneTimeFee === 'number') {
+                    totalOneTimeFee = oneTimeFee + addOnCost;
+                }
+                
+                // Update price breakdown
+                seo2PriceBreakdown.innerHTML = `
+                    Monthly Management Fee: <strong>${typeof monthlyFee === 'number' ? '$' + formatCurrency(monthlyFee) : monthlyFee}</strong><br>
+                    One-time Setup Fee: <strong>${typeof oneTimeFee === 'number' ? '$' + formatCurrency(oneTimeFee) : oneTimeFee}</strong>
+                `;
+                
+                // Get selected contract length
+                const contractLength = document.querySelector('input[name="seo2-contract"]:checked').id.replace('seo2-', '');
+                
+                // Calculate discounted fee
+                let discountedFee = monthlyFee;
+                if (typeof monthlyFee === 'number') {
+                    discountedFee = calculateDiscount(monthlyFee, contractLength);
+                }
+                
+                // Update client data
+                clientData.step2.service = 'seo2';
+                clientData.step2.details = {
+                    scope: scope,
+                    difficulty: difficulty,
+                    cro: document.getElementById('seo2-cro').checked,
+                    croHours: document.getElementById('seo2-cro-hours').value,
+                    contract: contractLength
+                };
+                
+                // Update Current Selection section
+                updateCurrentSelectionSEO2(scope, difficulty, monthlyFee, discountedFee, totalOneTimeFee, contractLength);
+            }
+            
+            // SEO 2 event listeners
+            seo2ScopeSelect.addEventListener('change', updateSEO2Price);
+            seo2DifficultySelect.addEventListener('change', updateSEO2Price);
+            
+            // SEO2 add-ons with immediate update
+            document.getElementById('seo2-cro').addEventListener('change', updateSEO2Price);
+            document.getElementById('seo2-cro-hours').addEventListener('input', updateSEO2Price);
+            
+            // SEO2 contract length with immediate update
+            document.querySelectorAll('input[name="seo2-contract"]').forEach(radio => {
+                radio.addEventListener('change', updateSEO2Price);
+            });
+            
+            // SEO2 payment terms with immediate update
+            document.querySelectorAll('input[name="seo2-payment"]').forEach(radio => {
+                radio.addEventListener('change', updateSEO2Price);
+            });
+            // Website pages select
+            document.getElementById('seo2-cro-hours').addEventListener('input', updateSEO2Price);
+            
+            // SEO 2 contract length with immediate update
+            document.querySelectorAll('input[name="seo2-contract"]').forEach(radio => {
+                radio.addEventListener('change', updateSEO2Price);
+            });
+            
+            // Website pages dropdown
+            const websitePagesSelect = document.getElementById('website-pages');
+            const websitePriceDisplay = document.getElementById('website-price-display');
+            const websitePriceBreakdown = document.getElementById('website-price-breakdown');
+            
+            websitePagesSelect.addEventListener('change', function() {
+                const pages = this.value;
+                let oneTimeFee = 2500;
+                
+                if (pages === '1') {
+                    oneTimeFee = 2500;
+                } else if (pages === '2-7') {
+                    oneTimeFee = 7000;
+                } else if (pages === 'custom') {
+                    oneTimeFee = 'Custom';
+                }
+                
+                // Calculate add-on costs
+                let addOnCost = 0;
+                if (document.getElementById('website-cro').checked) {
+                    const hours = parseInt(document.getElementById('website-cro-hours').value) || 1;
+                    addOnCost += 150 * hours;
+                }
+                
+                // Add add-on costs to one-time fee if not custom
+                let totalOneTimeFee = oneTimeFee;
+                if (oneTimeFee !== 'Custom') {
+                    totalOneTimeFee = oneTimeFee + addOnCost;
+                }
+                
+                // Update price display
+                websitePriceDisplay.textContent = oneTimeFee === 'Custom' ? 'Custom Pricing' : `$${formatCurrency(oneTimeFee)}`;
+                
+                // Update price breakdown
+                websitePriceBreakdown.innerHTML = `
+                    One-time Development Fee: <strong>${oneTimeFee === 'Custom' ? 'Custom Pricing' : '$' + formatCurrency(oneTimeFee)}</strong>
+                `;
+                
+                // Update one-time fees table for website
+                const oneTimeTableBody = document.getElementById('onetime-fees-tbody');
+                if (oneTimeTableBody) {
+                    oneTimeTableBody.innerHTML = `
+                        <tr>
+                            <td>Website Development</td>
+                            <td>${pages === '1' ? '1 Page' : (pages === '2-7' ? '2-7 Pages' : '7+ Pages (Custom)')}</td>
+                            <td>${oneTimeFee === 'Custom' ? 'Custom Pricing' : '$' + formatCurrency(totalOneTimeFee)}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2">Total One-time Investment</td>
+                            <td>${oneTimeFee === 'Custom' ? 'Custom Pricing' : '$' + formatCurrency(totalOneTimeFee)}</td>
+                        </tr>
+                    `;
+                }
+                
+                // Update monthly fees table for website (no monthly fees)
+                const monthlyTableBody = document.getElementById('monthly-fees-tbody');
+                if (monthlyTableBody) {
+                    monthlyTableBody.innerHTML = `
+                        <tr>
+                            <td>Website Development</td>
+                            <td>${pages === '1' ? '1 Page' : (pages === '2-7' ? '2-7 Pages' : '7+ Pages (Custom)')}</td>
+                            <td>$0</td>
+                            <td id="summary-discounted-monthly-fee">$0</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2">Total Monthly Investment</td>
+                            <td>$0/month</td>
+                            <td id="summary-total-monthly-fee">$0/month</td>
+                        </tr>
+                    `;
+                }
+                
+                // Update contract term display for website
+                const contractTermDisplay = document.getElementById('contract-term-display');
+                if (contractTermDisplay) {
+                    contractTermDisplay.textContent = 'One-time project';
+                }
+                
+                // Update client data
+                clientData.step2.details = {
+                    pages: pages,
+                    cro: document.getElementById('website-cro').checked,
+                    croHours: document.getElementById('website-cro-hours').value
+                };
+            });
+            
+            // Website add-ons
+            document.getElementById('website-cro').addEventListener('change', function() {
+                websitePagesSelect.dispatchEvent(new Event('change'));
+            });
+            
+            document.getElementById('website-cro-hours').addEventListener('input', function() {
+                websitePagesSelect.dispatchEvent(new Event('change'));
+            });
+            
+            // Initialize the first tab
+            fbSpendSlider.dispatchEvent(new Event('input'));
+
+            // Unit test for primary color
+            function testPrimaryColor() {
+                const headerElement = document.querySelector('header');
+                if (!headerElement) {
+                    console.error("Primary color test FAILED: Header element not found.");
+                    return;
+                }
+                const computedStyle = window.getComputedStyle(headerElement);
+                const actualBackgroundColor = computedStyle.backgroundColor;
+                const expectedRgbColor = 'rgb(232, 99, 25)'; // #E86319
+
+                if (actualBackgroundColor === expectedRgbColor) {
+                    console.log("Primary color test PASSED. Expected:", expectedRgbColor, "Got:", actualBackgroundColor);
+                } else {
+                    console.error("Primary color test FAILED. Expected:", expectedRgbColor, "Got:", actualBackgroundColor);
+                }
+            }
+            testPrimaryColor(); // Call the test function
+        });
+    </script>
+<footer-btn></footer-btn>
+<script>
+    // 定义自定义元素
+    class FooterBtn extends HTMLElement {
+        constructor() {
+            super();
+            // 创建 Shadow DOM
+            const shadow = this.attachShadow({ mode: 'open' });
+            // 创建组件的HTML结构
+            const wrapper = document.createElement('div');
+            wrapper.setAttribute('class', 'wrapper');
+            // 添加一些内容到组件中
+            wrapper.innerHTML = `
+               
+            `;
+            
+            // 添加样式
+            const style = document.createElement('style');
+            style.textContent = `
+                .page-footer {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    z-index: 1000;
+                }
+                
+                .footer-bg {
+                    background-color: rgba(0, 0, 0, 0.8);
+                    padding: 12px 16px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .tooltip-box {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                }
+                
+                .tooltip-desc {
+                    color: #FFFFFF;
+                    font-size: 14px;
+                    line-height: 20px;
+                }
+                
+                .tooltip-icon {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                }
+                
+                .footer-button {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background-color: #1F1F1F;
+                    border-radius: 8px;
+                    padding: 8px 12px;
+                    text-decoration: none;
+                    transition: background-color 0.3s;
+                }
+                
+                .footer-button:hover {
+                    background-color: #333333;
+                }
+                
+                .footer-logo {
+                    display: flex;
+                }
+                
+                .footer-text {
+                    color: #FFFFFF;
+                    font-size: 14px;
+                    line-height: 20px;
+                }
+                
+                .tooltip-dialog {
+                    position: absolute;
+                    bottom: 60px;
+                    left: 16px;
+                    right: 16px;
+                    background-color: #FFFFFF;
+                    border-radius: 8px;
+                    padding: 16px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    color: #333333;
+                    font-size: 14px;
+                    line-height: 20px;
+                    display: none;
+                }
+                
+                .footer-close-btn {
+                    position: absolute;
+                    top: -20px;
+                    right: 16px;
+                    cursor: pointer;
+                    display: none;
+                }
+                
+                @media (max-width: 768px) {
+                    .footer-text {
+                        display: none;
+                    }
+                    
+                    .footer-button {
+                        padding: 8px;
+                    }
+                }
+            `;
+            
+            // 将样式和内容添加到shadow DOM
+            shadow.appendChild(style);
+            shadow.appendChild(wrapper);
+            
+            // 添加事件监听器
+            const tooltipIcon = wrapper.querySelector('.tooltip-icon');
+            const tooltipDialog = wrapper.querySelector('.tooltip-dialog');
+            const closeBtn = wrapper.querySelector('.footer-close-btn');
+            
+            tooltipIcon.addEventListener('click', () => {
+                tooltipDialog.style.display = 'block';
+                closeBtn.style.display = 'block';
+            });
+            
+            closeBtn.addEventListener('click', () => {
+                tooltipDialog.style.display = 'none';
+                closeBtn.style.display = 'none';
+            });
+        }
+    }
+    
+    // 注册自定义元素
+    customElements.define('footer-btn', FooterBtn);
+</script>
 </body>
 </html>
